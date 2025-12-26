@@ -25,6 +25,15 @@ html {
 	scroll-snap-type: y mandatory;
 	overflow-y: scroll;
 	overflow-x: hidden;
+	/* Hide scrollbar - Firefox */
+	scrollbar-width: none;
+	/* Hide scrollbar - IE/Edge */
+	-ms-overflow-style: none;
+}
+
+/* Hide scrollbar - Chrome, Safari, Opera */
+html::-webkit-scrollbar {
+	display: none;
 }
 
 body {
@@ -41,6 +50,8 @@ body {
 .section {
 	min-height: 100vh;
 	min-height: 100dvh;
+	height: 100vh;
+	height: 100dvh;
 	width: 100%;
 	scroll-snap-align: start;
 	scroll-snap-stop: always;
@@ -50,7 +61,7 @@ body {
 	align-items: center;
 	position: relative;
 	overflow: hidden;
-	padding: 2rem;
+	padding: clamp(1rem, 3vh, 2rem) clamp(1rem, 4vw, 2rem);
 	box-sizing: border-box;
 }
 

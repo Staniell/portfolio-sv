@@ -67,22 +67,24 @@
 	.experience-container {
 		max-width: 800px;
 		width: 100%;
+		max-height: 90vh;
+		overflow: hidden;
 	}
 
 	.section-header {
 		text-align: center;
-		margin-bottom: 3rem;
+		margin-bottom: clamp(1rem, 3vh, 2rem);
 	}
 
 	.section-label {
 		display: inline-block;
-		padding: 0.5rem 1rem;
+		padding: 0.375rem 0.75rem;
 		background: rgba(99, 102, 241, 0.1);
 		border-radius: 2rem;
-		font-size: 0.875rem;
+		font-size: 0.75rem;
 		font-weight: 500;
 		color: var(--color-accent-light);
-		margin-bottom: 1rem;
+		margin-bottom: 0.5rem;
 		letter-spacing: 0.05em;
 	}
 
@@ -101,8 +103,8 @@
 
 	.timeline-item {
 		display: grid;
-		grid-template-columns: 60px 1fr;
-		gap: 1rem;
+		grid-template-columns: 40px 1fr;
+		gap: 0.75rem;
 	}
 
 	.timeline-marker {
@@ -112,11 +114,11 @@
 	}
 
 	.marker-dot {
-		width: 16px;
-		height: 16px;
+		width: 12px;
+		height: 12px;
 		border-radius: 50%;
 		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-		box-shadow: 0 0 20px var(--color-accent-glow);
+		box-shadow: 0 0 15px var(--color-accent-glow);
 		flex-shrink: 0;
 	}
 
@@ -124,48 +126,64 @@
 		width: 2px;
 		flex: 1;
 		background: linear-gradient(180deg, var(--color-accent) 0%, rgba(99, 102, 241, 0.2) 100%);
-		margin-top: 0.5rem;
+		margin-top: 0.25rem;
 	}
 
 	.timeline-content {
-		padding: 1.5rem;
-		margin-bottom: 1.5rem;
+		padding: clamp(0.75rem, 2vh, 1.25rem);
+		margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
 	}
 
 	.timeline-period {
 		display: inline-block;
-		padding: 0.25rem 0.75rem;
+		padding: 0.2rem 0.5rem;
 		background: rgba(99, 102, 241, 0.15);
 		border-radius: 1rem;
-		font-size: 0.75rem;
+		font-size: 0.7rem;
 		font-weight: 600;
 		color: var(--color-accent-light);
-		margin-bottom: 0.75rem;
+		margin-bottom: 0.5rem;
 	}
 
 	.timeline-content .heading-md {
-		margin-bottom: 0.25rem;
+		margin-bottom: 0.125rem;
+		font-size: clamp(1rem, 2.5vw, 1.5rem);
 	}
 
 	.timeline-company {
 		display: block;
 		color: var(--color-accent-light);
 		font-weight: 500;
-		margin-bottom: 0.75rem;
+		font-size: 0.875rem;
+		margin-bottom: 0.5rem;
 	}
 
 	.timeline-content .text-body {
 		margin: 0;
-		font-size: 0.9375rem;
+		font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+		line-height: 1.5;
 	}
 
 	@media (max-width: 640px) {
 		.timeline-item {
-			grid-template-columns: 40px 1fr;
+			grid-template-columns: 30px 1fr;
+		}
+	}
+
+	/* For short screens */
+	@media (max-height: 700px) {
+		.section-header {
+			margin-bottom: 0.75rem;
 		}
 
 		.timeline-content {
-			padding: 1rem;
+			padding: 0.625rem;
+			margin-bottom: 0.375rem;
+		}
+
+		.timeline-content .text-body {
+			font-size: 0.75rem;
+			line-height: 1.4;
 		}
 	}
 </style>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { ChevronDown } from 'lucide-svelte';
+
 	interface Props {
 		id: string;
 	}
@@ -26,7 +28,10 @@
 	</div>
 
 	<button class="scroll-indicator" onclick={scrollToNext} aria-label="Scroll to next section">
-		<span class="scroll-arrow"></span>
+		<div class="scroll-container">
+			<ChevronDown size={36} class="scroll-arrow-icon" />
+			<div class="scroll-dot-glow"></div>
+		</div>
 	</button>
 
 	<div class="hero-bg-glow"></div>
@@ -111,24 +116,64 @@
 
 	.scroll-indicator {
 		position: absolute;
-		bottom: 2rem;
+		bottom: 2.5rem;
 		left: 50%;
 		transform: translateX(-50%);
 		background: none;
 		border: none;
 		cursor: pointer;
-		padding: 1rem;
+		padding: 0.5rem;
 		z-index: 10;
+		color: var(--color-text-muted);
+		transition: all var(--transition-smooth);
 	}
 
-	.scroll-arrow {
-		display: block;
-		width: 24px;
-		height: 24px;
-		border-right: 2px solid var(--color-text-muted);
-		border-bottom: 2px solid var(--color-text-muted);
-		transform: rotate(45deg);
-		animation: scroll-indicator 2s ease-in-out infinite;
+	.scroll-container {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.scroll-dot-glow {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 40px;
+		height: 40px;
+		background: var(--color-accent-glow);
+		filter: blur(20px);
+		border-radius: 50%;
+		opacity: 0;
+		transition: opacity var(--transition-smooth);
+	}
+
+	.scroll-indicator:hover {
+		color: var(--color-accent-light);
+		transform: translateX(-50%) translateY(5px);
+	}
+
+	.scroll-indicator:hover .scroll-dot-glow {
+		opacity: 0.5;
+	}
+
+	:global(.scroll-arrow-icon) {
+		animation: scroll-indicator 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+		filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.3));
+	}
+
+	@keyframes scroll-indicator {
+		0%,
+		100% {
+			transform: translateY(0);
+			opacity: 0.5;
+		}
+		50% {
+			transform: translateY(10px);
+			opacity: 1;
+		}
 	}
 
 	.hero-bg-glow {

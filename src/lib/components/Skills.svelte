@@ -1,4 +1,23 @@
 <script lang="ts">
+	import {
+		Atom,
+		Zap as NextjsIcon,
+		Flame,
+		Code2,
+		Wind,
+		Server,
+		Layers,
+		Database,
+		Share2,
+		GitBranch,
+		Box,
+		Cloud,
+		BrainCircuit,
+		Bot,
+		Terminal,
+		PenTool
+	} from 'lucide-svelte';
+
 	interface Props {
 		id: string;
 	}
@@ -8,15 +27,33 @@
 	const skillCategories = [
 		{
 			name: 'Frontend',
-			skills: ['React', 'Next.js', 'Svelte', 'TypeScript', 'Tailwind CSS']
+			skills: [
+				{ name: 'React', icon: Atom },
+				{ name: 'Next.js', icon: NextjsIcon },
+				{ name: 'Svelte', icon: Flame },
+				{ name: 'TypeScript', icon: Code2 },
+				{ name: 'Tailwind CSS', icon: Wind }
+			]
 		},
 		{
 			name: 'Backend',
-			skills: ['Node.js', 'NestJS', 'PostgreSQL', 'MongoDB', 'REST APIs']
+			skills: [
+				{ name: 'Node.js', icon: Server },
+				{ name: 'NestJS', icon: Layers },
+				{ name: 'PostgreSQL', icon: Database },
+				{ name: 'MongoDB', icon: Database },
+				{ name: 'REST APIs', icon: Share2 }
+			]
 		},
 		{
-			name: 'Tools & Others',
-			skills: ['Git', 'Docker', 'AWS', 'Figma', 'Agile']
+			name: 'AI & Ecosystem',
+			skills: [
+				{ name: 'Claude Code', icon: Bot },
+				{ name: 'Gemini CLI', icon: Terminal },
+				{ name: 'Figma', icon: PenTool },
+				{ name: 'Docker/AWS', icon: Cloud },
+				{ name: 'Git', icon: GitBranch }
+			]
 		}
 	];
 </script>
@@ -34,9 +71,10 @@
 					<h3 class="category-title">{category.name}</h3>
 					<div class="skills-list">
 						{#each category.skills as skill, skillIndex}
-							<span class="skill-tag" style="--skill-delay: {skillIndex * 0.05}s">
-								{skill}
-							</span>
+							<div class="skill-tag" style="--skill-delay: {skillIndex * 0.05}s">
+								<skill.icon size={16} class="skill-icon" strokeWidth={2} />
+								{skill.name}
+							</div>
 						{/each}
 					</div>
 				</div>
@@ -63,7 +101,7 @@
 
 	.section-header {
 		text-align: center;
-		margin-bottom: 3rem;
+		margin-bottom: clamp(1.5rem, 5vh, 3rem);
 	}
 
 	.section-label {
@@ -113,7 +151,9 @@
 	}
 
 	.skill-tag {
-		display: inline-block;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 		padding: 0.5rem 1rem;
 		background: rgba(99, 102, 241, 0.1);
 		border: 1px solid rgba(99, 102, 241, 0.2);
@@ -121,6 +161,11 @@
 		font-size: 0.875rem;
 		color: var(--color-text-primary);
 		transition: all var(--transition-smooth);
+	}
+
+	:global(.skill-icon) {
+		color: var(--color-accent-light);
+		flex-shrink: 0;
 	}
 
 	.skill-tag:hover {
@@ -138,6 +183,21 @@
 	@media (max-width: 768px) {
 		.skills-grid {
 			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-height: 700px) {
+		.skills-grid {
+			gap: 0.75rem;
+		}
+		.skill-category {
+			padding: 0.75rem;
+		}
+		.category-title {
+			margin-bottom: 0.75rem;
+		}
+		.skills-note {
+			margin-top: 1rem;
 		}
 	}
 </style>

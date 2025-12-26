@@ -63,22 +63,23 @@
 	.about-container {
 		max-width: 1000px;
 		width: 100%;
+		max-height: 90vh;
 	}
 
 	.section-header {
 		text-align: center;
-		margin-bottom: 3rem;
+		margin-bottom: clamp(1rem, 3vh, 2rem);
 	}
 
 	.section-label {
 		display: inline-block;
-		padding: 0.5rem 1rem;
+		padding: 0.375rem 0.75rem;
 		background: rgba(99, 102, 241, 0.1);
 		border-radius: 2rem;
-		font-size: 0.875rem;
+		font-size: 0.75rem;
 		font-weight: 500;
 		color: var(--color-accent-light);
-		margin-bottom: 1rem;
+		margin-bottom: 0.5rem;
 		letter-spacing: 0.05em;
 	}
 
@@ -92,7 +93,7 @@
 	.about-content {
 		display: grid;
 		grid-template-columns: auto 1fr;
-		gap: 3rem;
+		gap: clamp(1.5rem, 4vw, 3rem);
 		align-items: center;
 	}
 
@@ -102,10 +103,10 @@
 	}
 
 	.avatar-ring {
-		width: 200px;
-		height: 200px;
+		width: clamp(120px, 20vh, 180px);
+		height: clamp(120px, 20vh, 180px);
 		border-radius: 50%;
-		padding: 4px;
+		padding: 3px;
 		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
 		animation: pulse-glow 3s ease-in-out infinite;
 	}
@@ -121,7 +122,7 @@
 	}
 
 	.avatar-initials {
-		font-size: 4rem;
+		font-size: clamp(2.5rem, 8vh, 4rem);
 		font-weight: 800;
 		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
 		-webkit-background-clip: text;
@@ -132,24 +133,29 @@
 	.about-text {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 0.75rem;
+	}
+
+	.about-text .text-body {
+		font-size: clamp(0.8125rem, 1.5vw, 1rem);
+		line-height: 1.6;
 	}
 
 	.about-stats {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 1rem;
-		margin-top: 1.5rem;
+		gap: 0.75rem;
+		margin-top: 1rem;
 	}
 
 	.stat-item {
-		padding: 1.25rem;
+		padding: clamp(0.75rem, 2vh, 1.25rem);
 		text-align: center;
 	}
 
 	.stat-number {
 		display: block;
-		font-size: 2rem;
+		font-size: clamp(1.5rem, 4vh, 2rem);
 		font-weight: 700;
 		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
 		-webkit-background-clip: text;
@@ -159,9 +165,9 @@
 
 	.stat-label {
 		display: block;
-		font-size: 0.75rem;
+		font-size: 0.7rem;
 		color: var(--color-text-muted);
-		margin-top: 0.25rem;
+		margin-top: 0.125rem;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
 	}
@@ -173,16 +179,35 @@
 		}
 
 		.avatar-ring {
-			width: 150px;
-			height: 150px;
+			width: 120px;
+			height: 120px;
 		}
 
 		.avatar-initials {
-			font-size: 3rem;
+			font-size: 2.5rem;
 		}
 
 		.about-stats {
-			grid-template-columns: 1fr;
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	@media (max-height: 700px) {
+		.section-header {
+			margin-bottom: 0.75rem;
+		}
+
+		.about-text {
+			gap: 0.5rem;
+		}
+
+		.about-text .text-body {
+			font-size: 0.8125rem;
+			line-height: 1.5;
+		}
+
+		.stat-item {
+			padding: 0.625rem;
 		}
 	}
 </style>

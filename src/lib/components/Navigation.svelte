@@ -7,9 +7,9 @@
 	let isMenuOpen = $state(false);
 
 	const navItems = [
-		{ id: 'hero', label: 'Home' },
 		{ id: 'about', label: 'About' },
 		{ id: 'experience', label: 'Experience' },
+		{ id: 'projects', label: 'Projects' },
 		{ id: 'skills', label: 'Skills' },
 		{ id: 'contact', label: 'Contact' }
 	];
@@ -52,20 +52,18 @@
 			</li>
 		{/each}
 	</ul>
-
-	<div class="nav-indicator">
-		{#each navItems as item}
-			<span
-				class="indicator-dot"
-				class:active={currentSection === item.id}
-				onclick={() => handleNavClick(item.id)}
-				role="button"
-				tabindex="0"
-				aria-label={`Go to ${item.label}`}
-			></span>
-		{/each}
-	</div>
 </nav>
+
+<div class="nav-indicator">
+	{#each navItems as item}
+		<button
+			class="indicator-dot"
+			class:active={currentSection === item.id}
+			onclick={() => handleNavClick(item.id)}
+			aria-label={`Go to ${item.label}`}
+		></button>
+	{/each}
+</div>
 
 <style>
 	.navigation {
@@ -117,6 +115,7 @@
 	.hamburger::after {
 		content: '';
 		position: absolute;
+		left: 0;
 		width: 24px;
 		height: 2px;
 		background: var(--color-text-primary);
@@ -183,12 +182,14 @@
 	}
 
 	.indicator-dot {
-		width: 8px;
-		height: 8px;
+		width: 12px;
+		height: 12px;
 		border-radius: 50%;
 		background: rgba(255, 255, 255, 0.2);
 		cursor: pointer;
 		transition: all var(--transition-smooth);
+		border: none;
+		padding: 0;
 	}
 
 	.indicator-dot:hover {
@@ -213,6 +214,7 @@
 			padding: 0.75rem 0.5rem;
 			border-radius: 1rem;
 			border: 1px solid rgba(255, 255, 255, 0.08);
+			z-index: 100;
 		}
 	}
 
@@ -220,40 +222,115 @@
 		.navigation {
 			width: calc(100% - 2rem);
 			justify-content: space-between;
+			padding: 0.5rem 1.25rem;
 		}
 
 		.nav-toggle {
-			display: block;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 40px;
+			height: 40px;
+			padding: 0;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.05);
+			transition: all 0.3s ease;
+		}
+
+		.nav-toggle:hover,
+		.nav-toggle[aria-expanded='true'] {
+			background: rgba(99, 102, 241, 0.2);
+			box-shadow: 0 0 15px var(--color-accent-glow);
+		}
+
+		.hamburger {
+			width: 20px;
+			height: 2px;
+			background: var(--color-accent-light);
+		}
+
+		.hamburger::before,
+		.hamburger::after {
+			left: 0;
+			width: 20px;
+			height: 2px;
+			background: var(--color-accent-light);
+		}
+
+		.hamburger::before {
+			top: -6px;
+		}
+
+		.hamburger::after {
+			bottom: -6px;
 		}
 
 		.nav-links {
-			position: absolute;
-			top: 100%;
-			left: 0;
-			right: 0;
-			margin-top: 0.5rem;
+			position: fixed;
+			top: 5rem;
+			left: 1rem;
+			right: 1rem;
 			flex-direction: column;
-			background: rgba(18, 18, 26, 0.98);
-			backdrop-filter: blur(20px);
-			border: 1px solid rgba(255, 255, 255, 0.08);
-			border-radius: 1rem;
-			padding: 1rem;
+			background: rgba(18, 18, 26, 0.9);
+			backdrop-filter: blur(25px);
+			-webkit-backdrop-filter: blur(25px);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			border-radius: 1.5rem;
+			padding: 1.5rem 1rem;
 			opacity: 0;
 			visibility: hidden;
-			transform: translateY(-10px);
-			transition: all 0.3s ease;
+			transform: scale(0.95) translateY(-20px);
+			transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+			box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 		}
 
 		.nav-links.open {
 			opacity: 1;
 			visibility: visible;
-			transform: translateY(0);
+			transform: scale(1) translateY(0);
+		}
+
+		.nav-links::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			border-radius: 1.5rem;
+			padding: 1px;
+			background: linear-gradient(
+				135deg,
+				rgba(255, 255, 255, 0.1),
+				transparent,
+				rgba(99, 102, 241, 0.2)
+			);
+			-webkit-mask:
+				linear-gradient(#fff 0 0) content-box,
+				linear-gradient(#fff 0 0);
+			mask:
+				linear-gradient(#fff 0 0) content-box,
+				linear-gradient(#fff 0 0);
+			-webkit-mask-composite: xor;
+			mask-composite: exclude;
+			pointer-events: none;
 		}
 
 		.nav-link {
 			width: 100%;
 			text-align: center;
-			padding: 0.75rem 1rem;
+			padding: 1rem;
+			font-size: 1rem;
+			letter-spacing: 0.05em;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+			border-radius: 0;
+		}
+
+		.nav-link:last-child {
+			border-bottom: none;
+		}
+
+		.nav-link.active {
+			background: transparent;
+			color: var(--color-accent);
+			font-weight: 700;
 		}
 	}
 </style>
