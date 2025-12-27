@@ -75,13 +75,14 @@
 
 	function updateScrollState() {
 		if (!scrollContainer) return;
-		canScrollLeft = scrollContainer.scrollLeft > 10;
-		canScrollRight =
-			scrollContainer.scrollLeft < scrollContainer.scrollWidth - scrollContainer.clientWidth - 10;
 
 		// Calculate active index based on scroll position
 		const width = scrollContainer.clientWidth;
 		activeIndex = Math.round(scrollContainer.scrollLeft / width);
+
+		// Update controls based on index for reliable visibility
+		canScrollLeft = activeIndex > 0;
+		canScrollRight = activeIndex < projects.length - 1;
 	}
 
 	function scrollToIndex(index: number) {
