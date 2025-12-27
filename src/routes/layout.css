@@ -22,9 +22,12 @@
 /* ===== Base Styles ===== */
 html {
 	scroll-behavior: smooth;
-	scroll-snap-type: y mandatory;
-	overflow-y: scroll;
-	overflow-x: hidden;
+	scroll-behavior: smooth;
+	/* Move scroll snap to container for robust mobile support */
+	/* scroll-snap-type: y mandatory; */
+	/* overflow-y: scroll; */
+	overflow: hidden;
+	height: 100%;
 	/* Hide scrollbar - Firefox */
 	scrollbar-width: none;
 	/* Hide scrollbar - IE/Edge */
@@ -47,11 +50,17 @@ body {
 }
 
 /* ===== Full-Screen Section Base ===== */
+.h-screen-safe {
+	height: 100vh; /* Fallback for older browsers */
+	height: 100svh; /* Modern Safari/Chrome - small viewport height */
+	min-height: 100svh;
+}
+
 .section {
 	min-height: 100vh;
-	min-height: 100dvh;
+	min-height: 100svh; /* Fallback and native small viewport height */
 	height: 100vh;
-	height: 100dvh;
+	height: 100svh;
 	width: 100%;
 	scroll-snap-align: start;
 	scroll-snap-stop: always;
