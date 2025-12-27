@@ -99,30 +99,6 @@
 		width: 100%;
 	}
 
-	.section-header {
-		text-align: center;
-		margin-bottom: clamp(1.5rem, 5vh, 3rem);
-	}
-
-	.section-label {
-		display: inline-block;
-		padding: 0.5rem 1rem;
-		background: rgba(99, 102, 241, 0.1);
-		border-radius: 2rem;
-		font-size: 0.875rem;
-		font-weight: 500;
-		color: var(--color-accent-light);
-		margin-bottom: 1rem;
-		letter-spacing: 0.05em;
-	}
-
-	.gradient-text {
-		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
 	.skills-grid {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);

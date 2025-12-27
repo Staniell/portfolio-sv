@@ -71,30 +71,6 @@
 		overflow: hidden;
 	}
 
-	.section-header {
-		text-align: center;
-		margin-bottom: clamp(1rem, 3vh, 2rem);
-	}
-
-	.section-label {
-		display: inline-block;
-		padding: 0.375rem 0.75rem;
-		background: rgba(99, 102, 241, 0.1);
-		border-radius: 2rem;
-		font-size: 0.75rem;
-		font-weight: 500;
-		color: var(--color-accent-light);
-		margin-bottom: 0.5rem;
-		letter-spacing: 0.05em;
-	}
-
-	.gradient-text {
-		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
 	.timeline {
 		display: flex;
 		flex-direction: column;

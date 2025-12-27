@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ExternalLink, ChevronLeft, ChevronRight } from 'lucide-svelte';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 
 	interface Props {
 		id: string;
@@ -27,28 +27,83 @@
 		}
 	];
 
-	let scrollContainer: HTMLDivElement;
+	let scrollContainer: HTMLUListElement;
 	let canScrollLeft = $state(false);
 	let canScrollRight = $state(true);
+	let activeIndex = $state(0);
+
+	// Drag to scroll logic
+	let isDragging = $state(false);
+	let startX: number;
+	let scrollLeft: number;
+
+	function handleMouseDown(e: MouseEvent) {
+		isDragging = true;
+		startX = e.pageX - scrollContainer.offsetLeft;
+		scrollLeft = scrollContainer.scrollLeft;
+	}
+
+	function handleMouseLeave() {
+		isDragging = false;
+	}
+
+	function handleMouseUp() {
+		if (!isDragging) return;
+		isDragging = false;
+
+		// Manually trigger smooth snap to nearest card
+		const width = scrollContainer.clientWidth;
+		const targetIndex = Math.round(scrollContainer.scrollLeft / width);
+		scrollToIndex(targetIndex);
+	}
+
+	function handleMouseMove(e: MouseEvent) {
+		if (!isDragging) return;
+		e.preventDefault();
+		const x = e.pageX - scrollContainer.offsetLeft;
+		const walk = (x - startX) * 2;
+		scrollContainer.scrollLeft = scrollLeft - walk;
+	}
 
 	function updateScrollState() {
 		if (!scrollContainer) return;
 		canScrollLeft = scrollContainer.scrollLeft > 10;
 		canScrollRight =
 			scrollContainer.scrollLeft < scrollContainer.scrollWidth - scrollContainer.clientWidth - 10;
+
+		// Calculate active index based on scroll position
+		const width = scrollContainer.clientWidth;
+		activeIndex = Math.round(scrollContainer.scrollLeft / width);
+	}
+
+	function scrollToIndex(index: number) {
+		if (!scrollContainer) return;
+		const width = scrollContainer.clientWidth;
+		scrollContainer.scrollTo({
+			left: index * width,
+			behavior: 'smooth'
+		});
 	}
 
 	function scroll(direction: 'left' | 'right') {
-		const amount = scrollContainer.clientWidth * 0.8;
-		scrollContainer.scrollBy({
-			left: direction === 'left' ? -amount : amount,
-			behavior: 'smooth'
-		});
+		const width = scrollContainer.clientWidth;
+		const targetIndex = direction === 'left' ? activeIndex - 1 : activeIndex + 1;
+
+		if (targetIndex >= 0 && targetIndex < projects.length) {
+			scrollToIndex(targetIndex);
+		}
 	}
 
 	onMount(() => {
 		updateScrollState();
 	});
+	function handleKeyDown(e: KeyboardEvent) {
+		if (e.key === 'ArrowLeft') {
+			scroll('left');
+		} else if (e.key === 'ArrowRight') {
+			scroll('right');
+		}
+	}
 </script>
 
 <section {id} class="section projects">
@@ -59,26 +114,34 @@
 		</div>
 
 		<div class="slider-wrapper">
-			{#if canScrollLeft}
-				<button
-					class="slider-nav prev"
-					onclick={() => scroll('left')}
-					aria-label="Previous project"
-				>
-					<ChevronLeft size={24} />
-				</button>
-			{/if}
+			<button
+				class="slider-nav prev"
+				class:hidden={!canScrollLeft}
+				onclick={() => scroll('left')}
+				aria-label="Previous project"
+			>
+				<ChevronLeft size={24} />
+			</button>
 
-			<div
+			<ul
 				class="projects-slider hide-scrollbar"
+				class:dragging={isDragging}
 				bind:this={scrollContainer}
 				onscroll={updateScrollState}
+				onmousedown={handleMouseDown}
+				onmouseleave={handleMouseLeave}
+				onmouseup={handleMouseUp}
+				onmousemove={handleMouseMove}
+				onkeydown={handleKeyDown}
+				tabindex="0"
+				role="list"
+				aria-label="Featured projects"
 			>
 				{#each projects as project}
-					<div class="project-card-wrapper">
+					<li class="project-card-wrapper" role="listitem">
 						<div class="project-card glass">
 							<div class="project-image">
-								<img src={project.image} alt={project.title} loading="lazy" />
+								<img src={project.image} alt={project.title} loading="lazy" draggable="false" />
 								<div class="image-overlay">
 									<div class="project-links">
 										<a
@@ -104,15 +167,29 @@
 								<p class="project-description">{project.description}</p>
 							</div>
 						</div>
-					</div>
+					</li>
+				{/each}
+			</ul>
+
+			<button
+				class="slider-nav next"
+				class:hidden={!canScrollRight}
+				onclick={() => scroll('right')}
+				aria-label="Next project"
+			>
+				<ChevronRight size={24} />
+			</button>
+
+			<div class="slider-pagination">
+				{#each projects as _, i}
+					<button
+						class="pagination-dot"
+						class:active={activeIndex === i}
+						onclick={() => scrollToIndex(i)}
+						aria-label={`Go to project ${i + 1}`}
+					></button>
 				{/each}
 			</div>
-
-			{#if canScrollRight}
-				<button class="slider-nav next" onclick={() => scroll('right')} aria-label="Next project">
-					<ChevronRight size={24} />
-				</button>
-			{/if}
 		</div>
 	</div>
 </section>
@@ -128,18 +205,6 @@
 		padding: 0 1rem;
 	}
 
-	.section-header {
-		text-align: center;
-		margin-bottom: clamp(2rem, 6vh, 4rem);
-	}
-
-	.gradient-text {
-		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
 	.slider-wrapper {
 		position: relative;
 		width: 100%;
@@ -152,6 +217,14 @@
 		scroll-snap-type: x mandatory;
 		padding: 1rem 0 3rem;
 		scroll-behavior: smooth;
+		list-style: none;
+		margin: 0;
+	}
+
+	.projects-slider.dragging {
+		scroll-snap-type: none;
+		scroll-behavior: auto;
+		cursor: grabbing;
 	}
 
 	.project-card-wrapper {
@@ -159,6 +232,7 @@
 		scroll-snap-align: center;
 		display: flex;
 		justify-content: center;
+		user-select: none;
 	}
 
 	.project-card {
@@ -169,19 +243,18 @@
 		overflow: hidden;
 		border-radius: 1.5rem;
 		transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+		cursor: grab;
+	}
+
+	.projects-slider.dragging .project-card {
+		cursor: grabbing;
 	}
 
 	.project-image {
 		position: relative;
 		aspect-ratio: 16/10;
 		overflow: hidden;
-	}
-
-	.project-image img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 0.6s ease;
+		pointer-events: none; /* Let drag work through image */
 	}
 
 	.image-overlay {
@@ -193,6 +266,7 @@
 		justify-content: center;
 		opacity: 0;
 		transition: opacity 0.3s ease;
+		pointer-events: auto; /* Re-enable for buttons */
 	}
 
 	.project-card:hover .image-overlay {
@@ -276,6 +350,12 @@
 		transition: all 0.3s ease;
 	}
 
+	.slider-nav.hidden {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+	}
+
 	.slider-nav:hover {
 		background: var(--color-accent);
 		border-color: var(--color-accent);
@@ -287,6 +367,31 @@
 	}
 	.slider-nav.next {
 		right: -1rem;
+	}
+
+	.slider-pagination {
+		display: flex;
+		justify-content: center;
+		gap: 0.75rem;
+		margin-top: 1rem;
+	}
+
+	.pagination-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.2);
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+
+	.pagination-dot.active {
+		background: var(--color-accent-light);
+		box-shadow: 0 0 10px var(--color-accent-glow);
+		width: 24px;
+		border-radius: 4px;
 	}
 
 	/* Hidden scrollbar but functional */

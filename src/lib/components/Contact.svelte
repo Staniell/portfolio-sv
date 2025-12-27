@@ -82,29 +82,6 @@
 		text-align: center;
 	}
 
-	.section-header {
-		margin-bottom: 2.5rem;
-	}
-
-	.section-label {
-		display: inline-block;
-		padding: 0.5rem 1rem;
-		background: rgba(99, 102, 241, 0.1);
-		border-radius: 2rem;
-		font-size: 0.875rem;
-		font-weight: 500;
-		color: var(--color-accent-light);
-		margin-bottom: 1rem;
-		letter-spacing: 0.05em;
-	}
-
-	.gradient-text {
-		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-	}
-
 	.contact-description {
 		max-width: 450px;
 		margin: 1rem auto 0;
@@ -112,26 +89,6 @@
 
 	.contact-cta {
 		margin-bottom: 2.5rem;
-	}
-
-	.btn-primary {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.75rem;
-		padding: 1rem 2rem;
-		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-		color: white;
-		font-weight: 600;
-		border-radius: 0.75rem;
-		transition:
-			transform var(--transition-smooth),
-			box-shadow var(--transition-smooth);
-	}
-
-	.btn-primary:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 10px 40px var(--color-accent-glow);
-		color: white;
 	}
 
 	.socials {
