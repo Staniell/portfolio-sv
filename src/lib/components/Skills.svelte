@@ -40,6 +40,7 @@
 			skills: [
 				{ name: 'Node.js', icon: Server },
 				{ name: 'NestJS', icon: Layers },
+				{ name: 'Prisma', icon: Database },
 				{ name: 'PostgreSQL', icon: Database },
 				{ name: 'MongoDB', icon: Database },
 				{ name: 'REST APIs', icon: Share2 }
