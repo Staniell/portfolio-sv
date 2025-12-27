@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ExternalLink, ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-svelte';
 	import { onMount, tick } from 'svelte';
 
 	interface Props {
@@ -20,10 +20,18 @@
 		{
 			title: 'Listify',
 			description:
-				'A comprehensive multi-vendor e-commerce ecosystem with real-time messaging and integrated Stripe Connect, empowering sellers to manage transactions and earn effortlessly.',
+				'A multi-vendor e-commerce ecosystem with real-time messaging and integrated Stripe Connect, empowering sellers to manage transactions and earn effortlessly.',
 			tech: ['Next.js', 'Supabase', 'Stripe', 'Real-time'],
 			url: 'https://listify-store.vercel.app/',
 			image: 'https://b.catgirlsare.sexy/mAYxU8KXKapW.png'
+		},
+		{
+			title: 'OnlyHate',
+			description:
+				'A Chrome extension that leverages sentiment analysis to filter YouTube comments, surfacing critical feedback and dissenting opinions by hiding positive/neutral content.',
+			tech: ['TypeScript', 'Chrome MV3', 'Sentiment', 'esbuild'],
+			url: 'https://github.com/Staniell/OnlyHate',
+			image: 'https://b.catgirlsare.sexy/JLsX63WBLP9_.png'
 		}
 	];
 
@@ -149,9 +157,15 @@
 											target="_blank"
 											rel="noopener noreferrer"
 											class="icon-btn"
-											aria-label="Visit Website"
+											aria-label={project.url.includes('github.com')
+												? 'View Source on GitHub'
+												: 'Visit Website'}
 										>
-											<ExternalLink size={20} />
+											{#if project.url.includes('github.com')}
+												<Github size={20} />
+											{:else}
+												<ExternalLink size={20} />
+											{/if}
 										</a>
 									</div>
 								</div>
@@ -255,6 +269,13 @@
 		aspect-ratio: 16/10;
 		overflow: hidden;
 		pointer-events: none; /* Let drag work through image */
+	}
+
+	.project-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
 	.image-overlay {
