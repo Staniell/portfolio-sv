@@ -22,11 +22,9 @@
 /* ===== Base Styles ===== */
 html {
 	scroll-behavior: smooth;
-	scroll-behavior: smooth;
-	/* Move scroll snap to container for robust mobile support */
-	/* scroll-snap-type: y mandatory; */
-	/* overflow-y: scroll; */
-	overflow: hidden;
+	scroll-snap-type: y mandatory;
+	overflow-y: scroll;
+	overflow-x: hidden;
 	height: 100%;
 	/* Hide scrollbar - Firefox */
 	scrollbar-width: none;
