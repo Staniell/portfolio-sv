@@ -1,4 +1,6 @@
 <script lang="ts">
+	import profileImage from '$lib/assets/gio.png';
+
 	interface Props {
 		id: string;
 	}
@@ -19,7 +21,7 @@
 			<div class="about-avatar">
 				<div class="avatar-ring">
 					<div class="avatar-inner">
-						<span class="avatar-initials">GB</span>
+						<img src={profileImage} alt="Gio Staniell Belolo" class="avatar-img" />
 					</div>
 				</div>
 			</div>
@@ -38,7 +40,7 @@
 
 				<div class="about-stats">
 					<div class="stat-item glass">
-						<span class="stat-number">2+</span>
+						<span class="stat-number">3+</span>
 						<span class="stat-label">Years Experience</span>
 					</div>
 					<div class="stat-item glass">
@@ -95,15 +97,13 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		overflow: hidden;
 	}
 
-	.avatar-initials {
-		font-size: clamp(2.5rem, 8vh, 4rem);
-		font-weight: 800;
-		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
+	.avatar-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 
 	.about-text {
@@ -157,10 +157,6 @@
 		.avatar-ring {
 			width: 120px;
 			height: 120px;
-		}
-
-		.avatar-initials {
-			font-size: 2.5rem;
 		}
 
 		.about-stats {
