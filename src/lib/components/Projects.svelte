@@ -14,7 +14,7 @@
 			description:
 				'A human-centric AI art platform designed for community collaboration, featuring seamless PayPal subscription integration and advanced generative capabilities.',
 			tech: ['Next.js', 'Supabase', 'Prisma', 'Gemini', 'PayPal'],
-			url: 'https://musebound.art/',
+			url: 'https://musebound.art/?utm_source=portfolio',
 			image: 'https://b.catgirlsare.sexy/ybQH6ZlcwZIJ.png'
 		},
 		{
@@ -22,7 +22,7 @@
 			description:
 				'A multi-vendor e-commerce ecosystem with real-time messaging and integrated Stripe Connect, empowering sellers to manage transactions and earn effortlessly.',
 			tech: ['Next.js', 'Supabase', 'Prisma', 'Stripe', 'Real-time'],
-			url: 'https://listify-store.vercel.app/',
+			url: 'https://listify-store.vercel.app/?utm_source=portfolio',
 			image: 'https://b.catgirlsare.sexy/mAYxU8KXKapW.png'
 		},
 		{
