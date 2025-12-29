@@ -15,7 +15,15 @@
 				'A human-centric AI art platform designed for community collaboration, featuring seamless PayPal subscription integration and advanced generative capabilities.',
 			tech: ['Next.js', 'Supabase', 'Prisma', 'Gemini', 'PayPal'],
 			url: 'https://musebound.art/?utm_source=portfolio',
-			image: 'https://b.catgirlsare.sexy/ybQH6ZlcwZIJ.png'
+			image: 'https://b.catgirlsare.sexy/X3zokBrIWv63.png'
+		},
+		{
+			title: 'PulseSynth',
+			description:
+				'An immersive audio-reactive visualizer Chrome extension that captures browser tab audio to drive dynamic, WebGL-powered ambient glow effects across all tabs.',
+			tech: ['TypeScript', 'Three.js', 'Web Audio API', 'Vite', 'GLSL'],
+			url: 'https://pulse-synth.vercel.app/?utm_source=portfolio',
+			image: 'https://b.catgirlsare.sexy/9v9yQFoCt1KK.png'
 		},
 		{
 			title: 'Listify',
@@ -23,15 +31,15 @@
 				'A multi-vendor e-commerce ecosystem with real-time messaging and integrated Stripe Connect, empowering sellers to manage transactions and earn effortlessly.',
 			tech: ['Next.js', 'Supabase', 'Prisma', 'Stripe', 'Real-time'],
 			url: 'https://listify-store.vercel.app/?utm_source=portfolio',
-			image: 'https://b.catgirlsare.sexy/mAYxU8KXKapW.png'
+			image: 'https://b.catgirlsare.sexy/5UaWmVIutkT0.png'
 		},
 		{
 			title: 'OnlyHate',
 			description:
 				'A Chrome extension that leverages sentiment analysis to filter YouTube comments, surfacing critical feedback and dissenting opinions by hiding positive/neutral content.',
 			tech: ['TypeScript', 'Chrome MV3', 'Sentiment', 'esbuild'],
-			url: 'https://only-hate.vercel.app/',
-			image: 'https://b.catgirlsare.sexy/JLsX63WBLP9_.png'
+			url: 'https://only-hate.vercel.app/?utm_source=portfolio',
+			image: 'https://b.catgirlsare.sexy/jrxDBAWSBCRt.png'
 		}
 	];
 
@@ -151,35 +159,57 @@
 						<div class="project-card glass">
 							<div class="project-image">
 								<img src={project.image} alt={project.title} loading="lazy" draggable="false" />
-								<div class="image-overlay">
-									<div class="project-links">
-										<a
-											href={project.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="icon-btn"
-											aria-label={project.url.includes('github.com')
-												? 'View Source on GitHub'
-												: 'Visit Website'}
-										>
-											{#if project.url.includes('github.com')}
-												<Github size={20} />
-											{:else}
-												<ExternalLink size={20} />
-											{/if}
-										</a>
-									</div>
-								</div>
 							</div>
 
 							<div class="project-content">
-								<h3 class="project-title">{project.title}</h3>
+								<div class="project-links-top">
+									<a
+										href={project.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="icon-btn-sm"
+										onmousedown={(e) => e.stopPropagation()}
+										aria-label={project.url.includes('github.com')
+											? 'View Source on GitHub'
+											: 'Visit Website'}
+									>
+										{#if project.url.includes('github.com')}
+											<Github size={18} />
+										{:else}
+											<ExternalLink size={18} />
+										{/if}
+									</a>
+								</div>
+
+								<h3 class="project-title">
+									<a
+										href={project.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										onmousedown={(e) => e.stopPropagation()}
+									>
+										{project.title}
+									</a>
+								</h3>
 								<div class="project-tech">
 									{#each project.tech as t}
 										<span class="tech-badge">{t}</span>
 									{/each}
 								</div>
 								<p class="project-description">{project.description}</p>
+							</div>
+
+							<div class="project-image-overlay">
+								<a
+									href={project.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="visit-btn-overlay"
+									onmousedown={(e) => e.stopPropagation()}
+								>
+									<span>Visit Project</span>
+									<ExternalLink size={20} />
+								</a>
 							</div>
 						</div>
 					</li>
@@ -252,13 +282,15 @@
 
 	.project-card {
 		width: 100%;
-		max-width: 800px;
-		display: grid;
-		grid-template-columns: 1.2fr 1fr;
+		max-width: 900px;
+		display: flex;
+		flex-direction: column;
 		overflow: hidden;
 		border-radius: 1.5rem;
-		transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+		transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 		cursor: grab;
+		position: relative;
+		border: 1px solid rgba(255, 255, 255, 0.05);
 	}
 
 	.projects-slider.dragging .project-card {
@@ -266,10 +298,12 @@
 	}
 
 	.project-image {
-		position: relative;
-		aspect-ratio: 16/10;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		inset: 0;
 		overflow: hidden;
-		pointer-events: none; /* Let drag work through image */
+		pointer-events: none;
 	}
 
 	.project-image img {
@@ -279,48 +313,105 @@
 		transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
-	.image-overlay {
+	.project-card:hover .project-image img {
+		transform: scale(1.08);
+	}
+
+	.project-card:hover {
+		transform: translateY(-5px);
+		border-color: rgba(99, 102, 241, 0.3);
+		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+	}
+
+	.project-links-top {
+		position: absolute;
+		top: 1.5rem;
+		right: 1.5rem;
+		z-index: 20;
+		display: none;
+	}
+
+	.icon-btn-sm {
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(10px);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.3s ease;
+	}
+
+	.icon-btn-sm:hover {
+		background: white;
+		color: black;
+		transform: scale(1.1);
+	}
+
+	.project-image-overlay {
 		position: absolute;
 		inset: 0;
-		background: rgba(18, 18, 26, 0.6);
+		background: rgba(10, 10, 15, 0.4);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		opacity: 0;
 		transition: opacity 0.3s ease;
-		pointer-events: auto; /* Re-enable for buttons */
+		z-index: 5;
+		pointer-events: none;
 	}
 
-	.project-card:hover .image-overlay {
+	.project-card:hover .project-image-overlay {
 		opacity: 1;
+		pointer-events: auto;
 	}
 
-	.project-card:hover .project-image img {
-		transform: scale(1.05);
-	}
-
-	.icon-btn {
-		width: 48px;
-		height: 48px;
-		border-radius: 50%;
+	.visit-btn-overlay {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 1rem 1.75rem;
 		background: white;
 		color: black;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: transform 0.3s ease;
+		font-weight: 700;
+		border-radius: 3rem;
+		transform: translateY(10px);
+		transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+		text-transform: uppercase;
+		font-size: 0.875rem;
+		letter-spacing: 0.05em;
 	}
 
-	.icon-btn:hover {
-		transform: scale(1.1);
+	.project-card:hover .visit-btn-overlay {
+		transform: translateY(0);
+	}
+
+	.visit-btn-overlay:hover {
+		background: var(--color-accent-light);
+		color: white;
+		box-shadow: 0 10px 30px var(--color-accent-glow);
 	}
 
 	.project-content {
-		padding: 2.5rem;
+		position: relative;
+		margin-top: auto;
+		padding: 6rem 2.5rem 2.5rem;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		background: rgba(255, 255, 255, 0.02);
+		justify-content: flex-end;
+		background: linear-gradient(
+			to top,
+			#0a0a0f 0%,
+			rgba(10, 10, 15, 0.98) 25%,
+			rgba(10, 10, 15, 0.85) 50%,
+			rgba(10, 10, 15, 0.4) 80%,
+			transparent 100%
+		);
+		z-index: 1;
+		min-height: 450px;
 	}
 
 	.project-title {
@@ -328,6 +419,17 @@
 		font-weight: 700;
 		margin-bottom: 1rem;
 		color: white;
+		text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+	}
+
+	.project-title a {
+		color: white;
+		text-decoration: none;
+		transition: color 0.3s ease;
+	}
+
+	.project-title a:hover {
+		color: var(--color-accent-light);
 	}
 
 	.project-tech {
@@ -341,16 +443,19 @@
 		font-size: 0.75rem;
 		font-weight: 600;
 		padding: 0.25rem 0.75rem;
-		background: rgba(99, 102, 241, 0.1);
+		background: rgba(99, 102, 241, 0.15);
+		backdrop-filter: blur(4px);
+		-webkit-backdrop-filter: blur(4px);
 		color: var(--color-accent-light);
 		border-radius: 2rem;
-		border: 1px solid rgba(99, 102, 241, 0.2);
+		border: 1px solid rgba(99, 102, 241, 0.3);
 	}
 
 	.project-description {
 		font-size: 1rem;
 		line-height: 1.6;
 		color: var(--color-text-secondary);
+		text-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
 	}
 
 	.slider-nav {
@@ -427,17 +532,25 @@
 
 	@media (max-width: 968px) {
 		.project-card {
-			grid-template-columns: 1fr;
 			max-width: 500px;
 		}
 		.project-content {
-			padding: 1.5rem;
+			padding: 2.5rem 1.5rem 1.5rem;
+			min-height: 400px;
 		}
 		.project-title {
 			font-size: 1.5rem;
 		}
 		.slider-nav {
 			display: none;
+		}
+		.project-image-overlay {
+			display: none; /* Hide overlay buttons on mobile, rely on title link and top-right btn */
+		}
+		.project-links-top {
+			display: block;
+			top: 1rem;
+			right: 1rem;
 		}
 	}
 
