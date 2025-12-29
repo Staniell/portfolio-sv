@@ -20,6 +20,9 @@
 	}
 
 	function handleWheel(event: WheelEvent) {
+		// Only use custom scroll on desktop
+		if (window.innerWidth <= 768) return;
+
 		event.preventDefault();
 
 		const currentIndex = sections.indexOf(currentSection);

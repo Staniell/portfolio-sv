@@ -68,6 +68,12 @@
 		max-height: 90vh;
 	}
 
+	@media (max-width: 768px) {
+		.about-container {
+			max-height: none;
+		}
+	}
+
 	.about-content {
 		display: grid;
 		grid-template-columns: auto 1fr;

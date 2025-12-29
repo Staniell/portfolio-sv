@@ -71,6 +71,13 @@
 		overflow: hidden;
 	}
 
+	@media (max-width: 768px) {
+		.experience-container {
+			max-height: none;
+			overflow: visible;
+		}
+	}
+
 	.timeline {
 		display: flex;
 		flex-direction: column;
