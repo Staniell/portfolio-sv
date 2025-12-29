@@ -30,7 +30,7 @@
 			description:
 				'A Chrome extension that leverages sentiment analysis to filter YouTube comments, surfacing critical feedback and dissenting opinions by hiding positive/neutral content.',
 			tech: ['TypeScript', 'Chrome MV3', 'Sentiment', 'esbuild'],
-			url: 'https://github.com/Staniell/OnlyHate',
+			url: 'https://only-hate.vercel.app/',
 			image: 'https://b.catgirlsare.sexy/JLsX63WBLP9_.png'
 		}
 	];
