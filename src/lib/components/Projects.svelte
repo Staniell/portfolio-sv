@@ -46,7 +46,7 @@
 			description:
 				'A production-grade web application built with Next.js 16 and Prisma, featuring Incremental Static Regeneration (ISR) for high-performance content delivery. Showcases a modern glassmorphism UI with Tailwind CSS v4 and a dynamic multi-theme system.',
 			tech: ['Next.js 16', 'Prisma', 'Tailwind CSS v4', 'Auth.js', 'ISR'],
-			url: '#',
+			url: 'https://isr-blogs.vercel.app/?utm_source=portfolio',
 			image: 'https://b.catgirlsare.sexy/7IHqNcj6K0KX.png'
 		}
 	];
