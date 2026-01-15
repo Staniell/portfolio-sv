@@ -17,6 +17,7 @@
 		Terminal,
 		PenTool
 	} from 'lucide-svelte';
+	import { Gem, Coffee, Monitor, FileCode } from 'lucide-svelte';
 
 	interface Props {
 		id: string;
@@ -31,6 +32,7 @@
 				{ name: 'React', icon: Atom },
 				{ name: 'Next.js', icon: NextjsIcon },
 				{ name: 'Svelte', icon: Flame },
+				{ name: 'Vue', icon: Monitor },
 				{ name: 'TypeScript', icon: Code2 },
 				{ name: 'Tailwind CSS', icon: Wind }
 			]
@@ -40,6 +42,9 @@
 			skills: [
 				{ name: 'Node.js', icon: Server },
 				{ name: 'NestJS', icon: Layers },
+				{ name: 'Python', icon: FileCode },
+				{ name: 'Java', icon: Coffee },
+				{ name: 'Ruby', icon: Gem },
 				{ name: 'Prisma', icon: Database },
 				{ name: 'PostgreSQL', icon: Database },
 				{ name: 'MongoDB', icon: Database },
