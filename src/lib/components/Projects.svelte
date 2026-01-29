@@ -327,7 +327,7 @@
 
 	.project-card:hover {
 		transform: translateY(-5px);
-		border-color: rgba(99, 102, 241, 0.3);
+		border-color: rgba(239, 68, 68, 0.3);
 		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 	}
 
@@ -451,12 +451,12 @@
 		font-size: 0.75rem;
 		font-weight: 600;
 		padding: 0.25rem 0.75rem;
-		background: rgba(99, 102, 241, 0.15);
+		background: rgba(239, 68, 68, 0.15);
 		backdrop-filter: blur(4px);
 		-webkit-backdrop-filter: blur(4px);
 		color: var(--color-accent-light);
 		border-radius: 2rem;
-		border: 1px solid rgba(99, 102, 241, 0.3);
+		border: 1px solid rgba(239, 68, 68, 0.3);
 	}
 
 	.project-description {

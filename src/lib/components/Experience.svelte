@@ -108,7 +108,7 @@
 	.marker-line {
 		width: 2px;
 		flex: 1;
-		background: linear-gradient(180deg, var(--color-accent) 0%, rgba(99, 102, 241, 0.2) 100%);
+		background: linear-gradient(180deg, var(--color-accent) 0%, rgba(239, 68, 68, 0.2) 100%);
 		margin-top: 0.25rem;
 	}
 
@@ -120,7 +120,7 @@
 	.timeline-period {
 		display: inline-block;
 		padding: 0.2rem 0.5rem;
-		background: rgba(99, 102, 241, 0.15);
+		background: rgba(239, 68, 68, 0.15);
 		border-radius: 1rem;
 		font-size: 0.7rem;
 		font-weight: 600;
