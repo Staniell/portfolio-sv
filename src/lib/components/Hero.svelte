@@ -39,7 +39,11 @@
 
 <style>
 	.hero {
-		background: radial-gradient(ellipse at center top, rgba(239, 68, 68, 0.15) 0%, transparent 60%);
+		background: radial-gradient(
+			ellipse at center top,
+			rgba(var(--color-accent-base), 0.15) 0%,
+			transparent 60%
+		);
 	}
 
 	.hero-content {
@@ -51,8 +55,8 @@
 	.hero-badge {
 		display: inline-block;
 		padding: 0.5rem 1.25rem;
-		background: rgba(239, 68, 68, 0.1);
-		border: 1px solid rgba(239, 68, 68, 0.3);
+		background: rgba(var(--color-accent-base), 0.1);
+		border: 1px solid rgba(var(--color-accent-base), 0.3);
 		border-radius: 2rem;
 		font-size: 0.875rem;
 		font-weight: 500;
@@ -157,7 +161,7 @@
 
 	:global(.scroll-arrow-icon) {
 		animation: scroll-indicator 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-		filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.3));
+		filter: drop-shadow(0 0 8px rgba(var(--color-accent-base), 0.3));
 	}
 
 	@keyframes scroll-indicator {

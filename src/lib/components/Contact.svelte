@@ -73,7 +73,11 @@
 <style>
 	.contact {
 		background:
-			radial-gradient(ellipse at center bottom, rgba(239, 68, 68, 0.1) 0%, transparent 60%),
+			radial-gradient(
+				ellipse at center bottom,
+				rgba(var(--color-accent-base), 0.1) 0%,
+				transparent 60%
+			),
 			var(--color-bg-primary);
 	}
 

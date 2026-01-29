@@ -172,7 +172,7 @@
 
 	.nav-link.active {
 		color: var(--color-accent-light);
-		background: rgba(239, 68, 68, 0.15);
+		background: rgba(var(--color-accent-base), 0.15);
 	}
 
 	.nav-indicator {
@@ -239,7 +239,7 @@
 
 		.nav-toggle:hover,
 		.nav-toggle[aria-expanded='true'] {
-			background: rgba(239, 68, 68, 0.2);
+			background: rgba(var(--color-accent-base), 0.2);
 			box-shadow: 0 0 15px var(--color-accent-glow);
 		}
 
@@ -300,7 +300,7 @@
 				135deg,
 				rgba(255, 255, 255, 0.1),
 				transparent,
-				rgba(239, 68, 68, 0.2)
+				rgba(var(--color-accent-base), 0.2)
 			);
 			-webkit-mask:
 				linear-gradient(#fff 0 0) content-box,
