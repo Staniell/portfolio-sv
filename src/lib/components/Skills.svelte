@@ -15,7 +15,8 @@
 		BrainCircuit,
 		Bot,
 		Terminal,
-		PenTool
+		PenTool,
+		Leaf
 	} from 'lucide-svelte';
 	import { Gem, Coffee, Monitor, FileCode } from 'lucide-svelte';
 
@@ -44,6 +45,8 @@
 				{ name: 'NestJS', icon: Layers },
 				{ name: 'Python', icon: FileCode },
 				{ name: 'Java', icon: Coffee },
+				{ name: 'Spring Boot', icon: Leaf },
+				{ name: 'Laravel', icon: Box },
 				{ name: 'Ruby', icon: Gem },
 				{ name: 'Prisma', icon: Database },
 				{ name: 'PostgreSQL', icon: Database },
