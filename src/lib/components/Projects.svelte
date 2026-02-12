@@ -48,6 +48,14 @@
 			tech: ['Next.js 16', 'Prisma', 'Tailwind CSS v4', 'Auth.js', 'ISR'],
 			url: 'https://isr-blogs.vercel.app/?utm_source=portfolio',
 			image: 'https://b.catgirlsare.sexy/7IHqNcj6K0KX.png'
+		},
+		{
+			title: 'Solar 3D',
+			description:
+				'A stylized interactive observatory built with React 19 and Three.js. Features real-time orbital mechanics, smooth camera transitions, and a cinematic HUD.',
+			tech: ['React 19', 'Three.js', 'TypeScript', 'Vite', 'Maath'],
+			url: 'https://solar-visualization.vercel.app/?utm_source=portfolio',
+			image: 'https://b.catgirlsare.sexy/2VQs7mcCyvta.png'
 		}
 	];
 
