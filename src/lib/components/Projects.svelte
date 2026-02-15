@@ -56,6 +56,14 @@
 			tech: ['React 19', 'Three.js', 'TypeScript', 'Vite', 'Maath'],
 			url: 'https://solar-visualization.vercel.app/?utm_source=portfolio',
 			image: 'https://b.catgirlsare.sexy/2VQs7mcCyvta.png'
+		},
+		{
+			title: 'Doom Scroll Infinity',
+			description:
+				'A desktop app for watching TikTok, Instagram, and YouTube Shorts simultaneously with synchronized scrolling, multi-column layouts, and isolated sessions.',
+			tech: ['Electron', 'React', 'TypeScript', 'Vite'],
+			url: 'https://github.com/Staniell/doom-scroll-infinity',
+			image: 'https://b.catgirlsare.sexy/Qg5SjH5y_-B6.png'
 		}
 	];
 
