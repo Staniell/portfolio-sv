@@ -64,6 +64,14 @@
 			tech: ['Electron', 'React', 'TypeScript', 'Vite'],
 			url: 'https://github.com/Staniell/doom-scroll-infinity',
 			image: 'https://b.catgirlsare.sexy/Qg5SjH5y_-B6.png'
+		},
+		{
+			title: 'QuizCraft',
+			description:
+				'An AI-powered quiz platform where users can create, share, and take interactive quizzes on any subject. Features AI-generated questions, multiple question types, real-time grading, and a public explore feed.',
+			tech: ['React', 'Django', 'TypeScript', 'Tailwind CSS', 'DRF'],
+			url: 'https://quiz-forge-beta.vercel.app/?utm_source=portfolio',
+			image: 'https://b.catgirlsare.sexy/e6-MSCOmItLv.png'
 		}
 	];
 
