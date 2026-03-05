@@ -62,7 +62,7 @@
 			description:
 				'A desktop app for watching TikTok, Instagram, and YouTube Shorts simultaneously with synchronized scrolling, multi-column layouts, and isolated sessions.',
 			tech: ['Electron', 'React', 'TypeScript', 'Vite'],
-			url: 'https://github.com/Staniell/doom-scroll-infinity',
+			url: 'https://doom-scroll-infinity.vercel.app/',
 			image: 'https://b.catgirlsare.sexy/Qg5SjH5y_-B6.png'
 		},
 		{
