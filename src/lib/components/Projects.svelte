@@ -18,6 +18,14 @@
 			image: 'https://b.catgirlsare.sexy/X3zokBrIWv63.png'
 		},
 		{
+			title: 'MIDI Piano',
+			description:
+				'A browser-based interactive piano and MIDI player with a falling-notes visualizer. Features an 88-key playable piano, MIDI file import/export, and an AI composition sidebar powered by Gemini that generates and transforms pieces on demand.',
+			tech: ['Next.js', 'React', 'Tone.js', 'Zustand', 'Gemini'],
+			url: 'https://midi-piano-player.vercel.app/',
+			image: 'https://b.catgirlsare.sexy/WrxX3bDhVuco.png'
+		},
+		{
 			title: 'PulseSynth',
 			description:
 				'An immersive audio-reactive visualizer Chrome extension that captures browser tab audio to drive dynamic, WebGL-powered ambient glow effects across all tabs.',

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx:*)",
+      "Bash(npm install:*)",
+      "Bash(ls:*)",
+      "Bash(npm run:*)",
+      "Bash(powershell.exe:*)",
+      "Bash(node:*)",
+      "Bash(python:*)"
+    ]
+  }
+}
