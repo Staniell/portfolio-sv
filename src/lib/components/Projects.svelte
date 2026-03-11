@@ -216,7 +216,7 @@
 				role="list"
 				aria-label="Featured projects"
 			>
-				{#each projects as project}
+				{#each projects as project (project.title)}
 					<li class="project-card-wrapper" role="listitem">
 						<div class="project-card glass">
 							<div class="project-image">
