@@ -1,10 +1,22 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	interface Props {
 		currentSection?: string;
 	}
 
 	let { currentSection = 'hero' }: Props = $props();
 	let isMenuOpen = $state(false);
+	let isNavHidden = $state(false);
+
+	const mobileNavDirectionThreshold = 18;
+	const mobileNavTopRevealOffset = 24;
+	const mobileNavProgrammaticRevealMs = 700;
+
+	let lastScrollY = 0;
+	let directionAnchorY = 0;
+	let lastScrollDirection: 'up' | 'down' | null = null;
+	let suspendAutoHideUntil = 0;
 
 	const navItems = [
 		{ id: 'about', label: 'About' },
@@ -14,18 +26,104 @@
 		{ id: 'contact', label: 'Contact' }
 	];
 
+	function isMobileViewport() {
+		return window.innerWidth <= 768;
+	}
+
+	function resetNavTracking(scrollY: number) {
+		lastScrollY = scrollY;
+		directionAnchorY = scrollY;
+		lastScrollDirection = null;
+	}
+
+	function updateNavVisibility(scrollY: number) {
+		const nextScrollY = Math.max(scrollY, 0);
+		const isAutoHideSuspended = Date.now() < suspendAutoHideUntil;
+
+		if (
+			!isMobileViewport() ||
+			isMenuOpen ||
+			isAutoHideSuspended ||
+			nextScrollY <= mobileNavTopRevealOffset
+		) {
+			isNavHidden = false;
+			resetNavTracking(nextScrollY);
+			return;
+		}
+
+		const delta = nextScrollY - lastScrollY;
+
+		if (Math.abs(delta) < 2) {
+			lastScrollY = nextScrollY;
+			return;
+		}
+
+		const nextDirection = delta > 0 ? 'down' : 'up';
+
+		if (nextDirection !== lastScrollDirection) {
+			lastScrollDirection = nextDirection;
+			directionAnchorY = lastScrollY;
+		}
+
+		const traveledDistance = Math.abs(nextScrollY - directionAnchorY);
+
+		if (nextDirection === 'down' && traveledDistance >= mobileNavDirectionThreshold) {
+			isNavHidden = true;
+		} else if (nextDirection === 'up' && traveledDistance >= mobileNavDirectionThreshold) {
+			isNavHidden = false;
+		}
+
+		lastScrollY = nextScrollY;
+	}
+
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
+		isNavHidden = false;
+
+		if (typeof window !== 'undefined') {
+			resetNavTracking(Math.max(window.scrollY, 0));
+		}
 	}
 
 	function handleNavClick(id: string) {
 		isMenuOpen = false;
+		isNavHidden = false;
+		suspendAutoHideUntil = Date.now() + mobileNavProgrammaticRevealMs;
+
+		if (typeof window !== 'undefined') {
+			resetNavTracking(Math.max(window.scrollY, 0));
+		}
+
 		const element = document.getElementById(id);
 		element?.scrollIntoView({ behavior: 'smooth' });
 	}
+
+	onMount(() => {
+		resetNavTracking(Math.max(window.scrollY, 0));
+
+		const handleScroll = () => {
+			updateNavVisibility(window.scrollY);
+		};
+
+		const handleResize = () => {
+			updateNavVisibility(window.scrollY);
+		};
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		window.addEventListener('resize', handleResize);
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+			window.removeEventListener('resize', handleResize);
+		};
+	});
 </script>
 
-<nav class="navigation glass" aria-label="Section navigation">
+<nav
+	class="navigation glass"
+	class:nav-hidden={isNavHidden && !isMenuOpen}
+	aria-label="Section navigation"
+>
 	<a href="#hero" class="nav-logo" onclick={() => handleNavClick('hero')}>
 		<span class="logo-text">GB</span>
 	</a>
@@ -79,6 +177,12 @@
 		padding: 0.85rem 1rem;
 		z-index: 100;
 		background: var(--color-panel);
+		transition:
+			transform 220ms ease,
+			opacity 220ms ease,
+			box-shadow var(--transition-smooth),
+			background-color var(--transition-smooth);
+		will-change: transform, opacity;
 	}
 
 	.nav-logo {
@@ -248,6 +352,12 @@
 		.navigation {
 			width: calc(100% - 1rem);
 			padding: 0.85rem;
+		}
+
+		.navigation.nav-hidden {
+			transform: translate(-50%, calc(-100% - 1.75rem));
+			opacity: 0;
+			pointer-events: none;
 		}
 
 		.nav-toggle {
