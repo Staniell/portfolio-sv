@@ -11,17 +11,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-| Task               | Command                                        |
-| ------------------ | ---------------------------------------------- |
-| Dev server         | `npm run dev`                                  |
-| Build              | `npm run build`                                |
-| Preview build      | `npm run preview`                              |
-| Type check         | `npm run check`                                |
-| Type check (watch) | `npm run check:watch`                          |
-| Format             | `npm run format`                               |
-| Lint formatting    | `npm run lint`                                 |
-| Fit helper tests   | `node --test tests/fit-section.test.js`        |
-| Section nav tests  | `node --test tests/section-navigation.test.js` |
+| Task                | Command                                        |
+| ------------------- | ---------------------------------------------- |
+| Dev server          | `npm run dev`                                  |
+| Build               | `npm run build`                                |
+| Preview build       | `npm run preview`                              |
+| Type check          | `npm run check`                                |
+| Type check (watch)  | `npm run check:watch`                          |
+| Format              | `npm run format`                               |
+| Lint formatting     | `npm run lint`                                 |
+| Desktop scroll test | `node --test tests/desktop-scroll.test.js`     |
+| Fit helper tests    | `node --test tests/fit-section.test.js`        |
+| Section nav tests   | `node --test tests/section-navigation.test.js` |
 
 There is still no full app test framework or e2e setup. For UI/UX changes, manual verification with `npm run preview` is expected.
 
@@ -31,6 +32,7 @@ There is still no full app test framework or e2e setup. For UI/UX changes, manua
 
 - All content lives on `src/routes/+page.svelte`.
 - Desktop uses a custom `wheel` handler to snap to the next or previous section.
+- Wheel intent and lock behavior are normalized through `src/lib/desktop-scroll.js`; repeated wheel events during an active transition must still be canceled, but they must not keep extending the lock.
 - Mobile (`<= 768px`) disables snap behavior and allows natural scrolling.
 - Active nav state is derived from viewport position using `src/lib/section-navigation.js`.
 - Do not convert this app into route-per-page navigation unless explicitly asked.
@@ -44,7 +46,9 @@ There is still no full app test framework or e2e setup. For UI/UX changes, manua
   - `.section-fit-viewport`
   - `.section-fit-content`
 - Components using this pattern mark the inner measurable content with `data-fit-content`.
-- If a section still clips because of shadows, controls, or decorative offsets, tune `data-fit-bleed-x` / `data-fit-bleed-y` on the fit shell instead of adding scrollbars.
+- Fit shells can reserve visual overflow with `data-fit-bleed-x`, `data-fit-bleed-y`, `data-fit-bleed-top`, `data-fit-bleed-bottom`, `data-fit-bleed-left`, and `data-fit-bleed-right`.
+- Fit shells can also reserve fixed-overlay clearance with `data-fit-inset-top` / `data-fit-inset-bottom`; use this when a section must stay clear of the floating desktop navbar.
+- Prefer tuning bleed/inset values instead of adding desktop scrollbars or ad hoc spacing inside section content.
 - Keep desktop snap behavior intact; avoid reintroducing internal desktop scroll regions unless explicitly requested.
 
 ### Theme System
@@ -99,11 +103,12 @@ There is still no full app test framework or e2e setup. For UI/UX changes, manua
 - `src/routes/+page.svelte` - single-page composition, wheel snapping, active-section tracking
 - `src/routes/+layout.svelte` - app shell and favicon usage
 - `src/routes/layout.css` - global tokens, neobrutalist system, section sizing, fit wrappers
+- `src/lib/desktop-scroll.js` - desktop wheel-lock decision helper for one-section snap behavior
 - `src/lib/theme.svelte.ts` - day-based theme selection
-- `src/lib/fit-section.js` - scale-to-fit logic for oversized desktop sections
+- `src/lib/fit-section.js` - scale-to-fit logic for oversized desktop sections, including bleed and inset reservation
 - `src/lib/section-navigation.js` - viewport-center-based active section calculation
 - `src/lib/components/Projects.svelte` - slider behavior and one of the most layout-sensitive sections
-- `src/lib/components/Experience.svelte` - another layout-sensitive section with fit bleed tuning
+- `src/lib/components/Experience.svelte` - another layout-sensitive section with fit bleed/inset tuning
 
 ## Working Rules for Agents
 
@@ -113,6 +118,7 @@ There is still no full app test framework or e2e setup. For UI/UX changes, manua
   - shorter desktop heights
   - mobile natural scrolling
 - Before claiming scroll or sizing work is fixed, run:
+  - `node --test tests/desktop-scroll.test.js`
   - `node --test tests/fit-section.test.js`
   - `node --test tests/section-navigation.test.js`
   - `npm run check`
@@ -124,7 +130,8 @@ After UI or scroll-related changes, manually verify:
 
 - desktop wheel snap moves one section at a time
 - scrolling up and down feels symmetric
-- `Experience` and `Projects` are fully visible on shorter laptop heights
+- repeated desktop scrolls still work after the first section change
+- `Experience` and `Projects` are fully visible on shorter laptop heights and stay clear of the fixed navbar
 - no desktop scrollbar appears inside sections unless explicitly intended
 - mobile still uses natural scrolling
 - nav highlighting matches the visible section
