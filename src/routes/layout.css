@@ -86,12 +86,13 @@ body {
 }
 
 .h-screen-safe {
-	height: 100vh;
-	height: 100svh;
+	min-height: 100vh;
 	min-height: 100svh;
 }
 
 .section {
+	--section-padding-top: clamp(6rem, 9vh, 7.5rem);
+	--section-padding-bottom: clamp(3rem, 7vh, 4.5rem);
 	min-height: 100vh;
 	min-height: 100svh;
 	height: 100vh;
@@ -105,11 +106,35 @@ body {
 	align-items: center;
 	position: relative;
 	overflow: hidden;
-	padding: clamp(1.25rem, 3vh, 2rem) clamp(1rem, 3.5vw, 2.5rem);
+	padding: var(--section-padding-top) clamp(1rem, 3.5vw, 2.5rem) var(--section-padding-bottom);
 	box-sizing: border-box;
 	border-top: 3px solid var(--color-border);
 	border-bottom: 3px solid var(--color-border);
 	margin-top: -3px;
+}
+
+.section-fit-shell {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.section-fit-viewport {
+	width: 100%;
+	height: var(--fit-height, auto);
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.section-fit-content {
+	width: 100%;
+	transform: scale(var(--fit-scale, 1));
+	transform-origin: top center;
+	will-change: transform;
 }
 
 @media (max-width: 768px) {
@@ -120,6 +145,16 @@ body {
 		overflow: visible;
 		padding: 6rem 1rem 4rem;
 		scroll-margin-top: 5.5rem;
+	}
+
+	.section-fit-shell,
+	.section-fit-viewport {
+		height: auto;
+		overflow: visible;
+	}
+
+	.section-fit-content {
+		transform: none;
 	}
 }
 

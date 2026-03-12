@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ChevronDown } from 'lucide-svelte';
+	import { fitSection } from '$lib/fit-section.js';
 
 	interface Props {
 		id: string;
@@ -14,38 +15,43 @@
 </script>
 
 <section {id} class="section hero">
-	<div class="hero-layout">
-		<div class="hero-content glass">
-			<div class="hero-badge">Full-Stack Software Developer</div>
-			<h1 class="heading-xl">Gio Staniell<br /><span class="gradient-text">Belolo</span></h1>
-			<p class="text-body hero-description">
-				I'm passionate about creating efficient, scalable, and user-friendly web applications. With
-				expertise in both front-end and back-end technologies, I bring ideas to life through code.
-			</p>
-			<div class="hero-cta">
-				<a href="#contact" class="btn-primary">Get in Touch</a>
-				<a href="#experience" class="btn-secondary">View Experience</a>
-			</div>
-		</div>
-
-		<div class="hero-side">
-			<div class="hero-note glass">
-				<span class="hero-note-label">Build Focus</span>
-				<p>Efficient systems, scalable architecture, and interfaces that feel easy to use.</p>
-			</div>
-
-			<div class="hero-stats">
-				<div class="hero-stat glass">
-					<span class="hero-stat-number">3+</span>
-					<span class="hero-stat-label">Years</span>
+	<div class="section-fit-shell" use:fitSection>
+		<div class="section-fit-viewport">
+			<div class="hero-layout section-fit-content" data-fit-content>
+				<div class="hero-content glass">
+					<div class="hero-badge">Full-Stack Software Developer</div>
+					<h1 class="heading-xl">Gio Staniell<br /><span class="gradient-text">Belolo</span></h1>
+					<p class="text-body hero-description">
+						I'm passionate about creating efficient, scalable, and user-friendly web applications.
+						With expertise in both front-end and back-end technologies, I bring ideas to life
+						through code.
+					</p>
+					<div class="hero-cta">
+						<a href="#contact" class="btn-primary">Get in Touch</a>
+						<a href="#experience" class="btn-secondary">View Experience</a>
+					</div>
 				</div>
-				<div class="hero-stat glass">
-					<span class="hero-stat-number">10+</span>
-					<span class="hero-stat-label">Projects</span>
-				</div>
-				<div class="hero-stat glass">
-					<span class="hero-stat-number">5+</span>
-					<span class="hero-stat-label">Stacks</span>
+
+				<div class="hero-side">
+					<div class="hero-note glass">
+						<span class="hero-note-label">Build Focus</span>
+						<p>Efficient systems, scalable architecture, and interfaces that feel easy to use.</p>
+					</div>
+
+					<div class="hero-stats">
+						<div class="hero-stat glass">
+							<span class="hero-stat-number">3+</span>
+							<span class="hero-stat-label">Years</span>
+						</div>
+						<div class="hero-stat glass">
+							<span class="hero-stat-number">10+</span>
+							<span class="hero-stat-label">Projects</span>
+						</div>
+						<div class="hero-stat glass">
+							<span class="hero-stat-number">5+</span>
+							<span class="hero-stat-label">Stacks</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

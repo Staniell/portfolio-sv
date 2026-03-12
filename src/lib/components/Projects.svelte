@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { fitSection } from '$lib/fit-section.js';
 	import { onMount, tick } from 'svelte';
 	import { getClosestProjectIndex, getProjectSnapOffset } from './projects-slider.js';
 
@@ -216,119 +217,128 @@
 </script>
 
 <section {id} class="section projects">
-	<div class="projects-container">
-		<div class="section-header">
-			<span class="section-label">Portfolio</span>
-			<h2 class="heading-lg">Featured <span class="gradient-text">Projects</span></h2>
-		</div>
+	<div class="section-fit-shell" use:fitSection data-fit-bleed-x="56" data-fit-bleed-y="40">
+		<div class="section-fit-viewport">
+			<div class="projects-container section-fit-content" data-fit-content>
+				<div class="section-header">
+					<span class="section-label">Portfolio</span>
+					<h2 class="heading-lg">Featured <span class="gradient-text">Projects</span></h2>
+				</div>
 
-		<div class="slider-wrapper">
-			<button
-				class="slider-nav prev"
-				class:hidden={!canScrollLeft}
-				onclick={() => scroll('left')}
-				aria-label="Previous project"
-			>
-				<ChevronLeft size={24} />
-			</button>
-
-			<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-			<div
-				class="projects-slider hide-scrollbar"
-				class:dragging={isDragging}
-				bind:this={scrollContainer}
-				onscroll={updateScrollState}
-				onmousedown={handleMouseDown}
-				onkeydown={handleKeyDown}
-				tabindex="0"
-				role="region"
-				aria-label="Featured projects carousel"
-			>
-				<ul class="projects-track" bind:this={scrollTrack} role="list">
-					{#each projects as project (project.title)}
-						<li class="project-card-wrapper" role="listitem">
-							<div class="project-card glass">
-								<div class="project-image-frame">
-									<div class="project-links-top">
-										<a
-											href={project.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="icon-btn-sm"
-											onmousedown={(e) => e.stopPropagation()}
-											aria-label={project.url.includes('github.com')
-												? 'View Source on GitHub'
-												: 'Visit Website'}
-										>
-											{#if project.url.includes('github.com')}
-												<Github size={18} />
-											{:else}
-												<ExternalLink size={18} />
-											{/if}
-										</a>
-									</div>
-
-									<div class="project-image">
-										<img src={project.image} alt={project.title} loading="lazy" draggable="false" />
-									</div>
-								</div>
-
-								<div class="project-content">
-									<h3 class="project-title">
-										<a
-											href={project.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											onmousedown={(e) => e.stopPropagation()}
-										>
-											{project.title}
-										</a>
-									</h3>
-									<div class="project-tech">
-										{#each project.tech as t}
-											<span class="tech-badge">{t}</span>
-										{/each}
-									</div>
-									<p class="project-description">{project.description}</p>
-
-									<div class="project-actions">
-										<a
-											href={project.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="visit-btn-overlay"
-											onmousedown={(e) => e.stopPropagation()}
-										>
-											<span>Visit Project</span>
-											<ExternalLink size={20} />
-										</a>
-									</div>
-								</div>
-							</div>
-						</li>
-					{/each}
-				</ul>
-			</div>
-
-			<button
-				class="slider-nav next"
-				class:hidden={!canScrollRight}
-				onclick={() => scroll('right')}
-				aria-label="Next project"
-			>
-				<ChevronRight size={24} />
-			</button>
-
-			<div class="slider-pagination">
-				{#each projects as _, i}
+				<div class="slider-wrapper">
 					<button
-						class="pagination-dot"
-						class:active={activeIndex === i}
-						onclick={() => scrollToIndex(i)}
-						aria-label={`Go to project ${i + 1}`}
-					></button>
-				{/each}
+						class="slider-nav prev"
+						class:hidden={!canScrollLeft}
+						onclick={() => scroll('left')}
+						aria-label="Previous project"
+					>
+						<ChevronLeft size={24} />
+					</button>
+
+					<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+					<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+					<div
+						class="projects-slider hide-scrollbar"
+						class:dragging={isDragging}
+						bind:this={scrollContainer}
+						onscroll={updateScrollState}
+						onmousedown={handleMouseDown}
+						onkeydown={handleKeyDown}
+						tabindex="0"
+						role="region"
+						aria-label="Featured projects carousel"
+					>
+						<ul class="projects-track" bind:this={scrollTrack} role="list">
+							{#each projects as project (project.title)}
+								<li class="project-card-wrapper" role="listitem">
+									<div class="project-card glass">
+										<div class="project-image-frame">
+											<div class="project-links-top">
+												<a
+													href={project.url}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="icon-btn-sm"
+													onmousedown={(e) => e.stopPropagation()}
+													aria-label={project.url.includes('github.com')
+														? 'View Source on GitHub'
+														: 'Visit Website'}
+												>
+													{#if project.url.includes('github.com')}
+														<Github size={18} />
+													{:else}
+														<ExternalLink size={18} />
+													{/if}
+												</a>
+											</div>
+
+											<div class="project-image">
+												<img
+													src={project.image}
+													alt={project.title}
+													loading="lazy"
+													draggable="false"
+												/>
+											</div>
+										</div>
+
+										<div class="project-content">
+											<h3 class="project-title">
+												<a
+													href={project.url}
+													target="_blank"
+													rel="noopener noreferrer"
+													onmousedown={(e) => e.stopPropagation()}
+												>
+													{project.title}
+												</a>
+											</h3>
+											<div class="project-tech">
+												{#each project.tech as t}
+													<span class="tech-badge">{t}</span>
+												{/each}
+											</div>
+											<p class="project-description">{project.description}</p>
+
+											<div class="project-actions">
+												<a
+													href={project.url}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="visit-btn-overlay"
+													onmousedown={(e) => e.stopPropagation()}
+												>
+													<span>Visit Project</span>
+													<ExternalLink size={20} />
+												</a>
+											</div>
+										</div>
+									</div>
+								</li>
+							{/each}
+						</ul>
+					</div>
+
+					<button
+						class="slider-nav next"
+						class:hidden={!canScrollRight}
+						onclick={() => scroll('right')}
+						aria-label="Next project"
+					>
+						<ChevronRight size={24} />
+					</button>
+
+					<div class="slider-pagination">
+						{#each projects as _, i}
+							<button
+								class="pagination-dot"
+								class:active={activeIndex === i}
+								onclick={() => scrollToIndex(i)}
+								aria-label={`Go to project ${i + 1}`}
+							></button>
+						{/each}
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

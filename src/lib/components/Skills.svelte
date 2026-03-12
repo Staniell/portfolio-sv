@@ -19,6 +19,7 @@
 		Leaf
 	} from 'lucide-svelte';
 	import { Gem, Coffee, Monitor, FileCode } from 'lucide-svelte';
+	import { fitSection } from '$lib/fit-section.js';
 
 	interface Props {
 		id: string;
@@ -68,32 +69,36 @@
 </script>
 
 <section {id} class="section skills">
-	<div class="skills-container">
-		<div class="section-header">
-			<span class="section-label">Expertise</span>
-			<h2 class="heading-lg">Technical <span class="gradient-text">Skills</span></h2>
-		</div>
-
-		<div class="skills-grid">
-			{#each skillCategories as category, catIndex}
-				<div class="skill-category glass" style="--delay: {catIndex * 0.1}s">
-					<h3 class="category-title">{category.name}</h3>
-					<div class="skills-list">
-						{#each category.skills as skill, skillIndex}
-							<div class="skill-tag" style="--skill-delay: {skillIndex * 0.05}s">
-								<skill.icon size={16} class="skill-icon" strokeWidth={2} />
-								{skill.name}
-							</div>
-						{/each}
-					</div>
+	<div class="section-fit-shell" use:fitSection>
+		<div class="section-fit-viewport">
+			<div class="skills-container section-fit-content" data-fit-content>
+				<div class="section-header">
+					<span class="section-label">Expertise</span>
+					<h2 class="heading-lg">Technical <span class="gradient-text">Skills</span></h2>
 				</div>
-			{/each}
-		</div>
 
-		<div class="skills-note">
-			<p class="text-small">
-				Always learning and exploring new technologies to stay ahead of the curve.
-			</p>
+				<div class="skills-grid">
+					{#each skillCategories as category, catIndex}
+						<div class="skill-category glass" style="--delay: {catIndex * 0.1}s">
+							<h3 class="category-title">{category.name}</h3>
+							<div class="skills-list">
+								{#each category.skills as skill, skillIndex}
+									<div class="skill-tag" style="--skill-delay: {skillIndex * 0.05}s">
+										<skill.icon size={16} class="skill-icon" strokeWidth={2} />
+										{skill.name}
+									</div>
+								{/each}
+							</div>
+						</div>
+					{/each}
+				</div>
+
+				<div class="skills-note">
+					<p class="text-small">
+						Always learning and exploring new technologies to stay ahead of the curve.
+					</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>

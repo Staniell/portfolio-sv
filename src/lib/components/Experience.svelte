@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { fitSection } from '$lib/fit-section.js';
+
 	interface Props {
 		id: string;
 	}
@@ -31,30 +33,34 @@
 </script>
 
 <section {id} class="section experience">
-	<div class="experience-container">
-		<div class="section-header">
-			<span class="section-label">Career</span>
-			<h2 class="heading-lg">Work <span class="gradient-text">Experience</span></h2>
-		</div>
-
-		<div class="timeline">
-			{#each experiences as exp, index}
-				<div class="timeline-item" style="--delay: {index * 0.1}s">
-					<div class="timeline-marker">
-						<div class="marker-dot"></div>
-						{#if index < experiences.length - 1}
-							<div class="marker-line"></div>
-						{/if}
-					</div>
-
-					<div class="timeline-content glass">
-						<span class="timeline-period">{exp.period}</span>
-						<h3 class="heading-md">{exp.title}</h3>
-						<span class="timeline-company">{exp.company}</span>
-						<p class="text-body">{exp.description}</p>
-					</div>
+	<div class="section-fit-shell" use:fitSection data-fit-bleed-y="40">
+		<div class="section-fit-viewport">
+			<div class="experience-container section-fit-content" data-fit-content>
+				<div class="section-header">
+					<span class="section-label">Career</span>
+					<h2 class="heading-lg">Work <span class="gradient-text">Experience</span></h2>
 				</div>
-			{/each}
+
+				<div class="timeline">
+					{#each experiences as exp, index}
+						<div class="timeline-item" style="--delay: {index * 0.1}s">
+							<div class="timeline-marker">
+								<div class="marker-dot"></div>
+								{#if index < experiences.length - 1}
+									<div class="marker-line"></div>
+								{/if}
+							</div>
+
+							<div class="timeline-content glass">
+								<span class="timeline-period">{exp.period}</span>
+								<h3 class="heading-md">{exp.title}</h3>
+								<span class="timeline-company">{exp.company}</span>
+								<p class="text-body">{exp.description}</p>
+							</div>
+						</div>
+					{/each}
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
@@ -67,15 +73,6 @@
 	.experience-container {
 		max-width: 920px;
 		width: 100%;
-		max-height: 90vh;
-		overflow: hidden;
-	}
-
-	@media (max-width: 768px) {
-		.experience-container {
-			max-height: none;
-			overflow: visible;
-		}
 	}
 
 	.timeline {

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { fitSection } from '$lib/fit-section.js';
+
 	interface Props {
 		id: string;
 	}
@@ -25,54 +27,68 @@
 </script>
 
 <section {id} class="section contact">
-	<div class="contact-container glass">
-		<div class="section-header">
-			<span class="section-label">Get in Touch</span>
-			<h2 class="heading-lg">Let's <span class="gradient-text">Connect</span></h2>
-			<p class="text-body contact-description">
-				I'm always open to discussing new projects, creative ideas, or opportunities to be part of
-				your vision.
-			</p>
-		</div>
+	<div class="section-fit-shell" use:fitSection>
+		<div class="section-fit-viewport">
+			<div class="contact-shell section-fit-content" data-fit-content>
+				<div class="contact-container glass">
+					<div class="section-header">
+						<span class="section-label">Get in Touch</span>
+						<h2 class="heading-lg">Let's <span class="gradient-text">Connect</span></h2>
+						<p class="text-body contact-description">
+							I'm always open to discussing new projects, creative ideas, or opportunities to be
+							part of your vision.
+						</p>
+					</div>
 
-		<div class="contact-cta">
-			<a href="mailto:giostaniell14@gmail.com" class="btn-primary" data-sveltekit-reload>
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-					<path
-						d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"
-					/>
-				</svg>
-				<span>Send me an Email</span>
-			</a>
-		</div>
+					<div class="contact-cta">
+						<a href="mailto:giostaniell14@gmail.com" class="btn-primary" data-sveltekit-reload>
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+								<path
+									d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"
+								/>
+							</svg>
+							<span>Send me an Email</span>
+						</a>
+					</div>
 
-		<div class="socials">
-			{#each socials as social}
-				<a
-					href={social.url}
-					class="social-link glass"
-					target={social.url.startsWith('mailto:') ? undefined : '_blank'}
-					rel={social.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-					data-sveltekit-reload={social.url.startsWith('mailto:') ? '' : undefined}
-					aria-label={social.name}
-				>
-					<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-						<path d={social.icon} />
-					</svg>
-					<span class="social-name">{social.name}</span>
-				</a>
-			{/each}
+					<div class="socials">
+						{#each socials as social}
+							<a
+								href={social.url}
+								class="social-link glass"
+								target={social.url.startsWith('mailto:') ? undefined : '_blank'}
+								rel={social.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+								data-sveltekit-reload={social.url.startsWith('mailto:') ? '' : undefined}
+								aria-label={social.name}
+							>
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+									<path d={social.icon} />
+								</svg>
+								<span class="social-name">{social.name}</span>
+							</a>
+						{/each}
+					</div>
+				</div>
+
+				<footer class="footer">
+					<p class="text-small">© 2025 Gio Staniell Belolo. All rights reserved.</p>
+				</footer>
+			</div>
 		</div>
 	</div>
-
-	<footer class="footer">
-		<p class="text-small">© 2025 Gio Staniell Belolo. All rights reserved.</p>
-	</footer>
 </section>
 
 <style>
 	.contact {
 		background: transparent;
+	}
+
+	.contact-shell {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5rem;
 	}
 
 	.contact-container {
@@ -130,10 +146,6 @@
 	}
 
 	.footer {
-		position: absolute;
-		bottom: 1rem;
-		left: 0;
-		right: 0;
 		text-align: center;
 	}
 
@@ -155,7 +167,6 @@
 		}
 
 		.footer {
-			position: static;
 			margin-top: 1.5rem;
 		}
 

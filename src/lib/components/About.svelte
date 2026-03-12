@@ -1,5 +1,6 @@
 <script lang="ts">
 	import profileImage from '$lib/assets/gio.png';
+	import { fitSection } from '$lib/fit-section.js';
 
 	interface Props {
 		id: string;
@@ -9,47 +10,52 @@
 </script>
 
 <section {id} class="section about">
-	<div class="about-container">
-		<div class="section-header">
-			<span class="section-label">About Me</span>
-			<h2 class="heading-lg">
-				Turning Ideas Into<br /><span class="gradient-text">Digital Reality</span>
-			</h2>
-		</div>
-
-		<div class="about-content glass">
-			<div class="about-avatar">
-				<div class="avatar-ring">
-					<div class="avatar-inner">
-						<img src={profileImage} alt="Gio Staniell Belolo" class="avatar-img" />
-					</div>
+	<div class="section-fit-shell" use:fitSection>
+		<div class="section-fit-viewport">
+			<div class="about-container section-fit-content" data-fit-content>
+				<div class="section-header">
+					<span class="section-label">About Me</span>
+					<h2 class="heading-lg">
+						Turning Ideas Into<br /><span class="gradient-text">Digital Reality</span>
+					</h2>
 				</div>
-			</div>
 
-			<div class="about-text">
-				<p class="text-body">
-					I'm a Full-Stack Software Developer with a passion for crafting exceptional digital
-					experiences. My journey in software development has equipped me with a diverse skill set
-					spanning modern frontend frameworks and robust backend technologies.
-				</p>
-				<p class="text-body">
-					I thrive on solving complex problems and turning ambitious ideas into elegant, scalable
-					solutions. Whether it's optimizing performance, architecting systems, or creating
-					intuitive user interfaces, I approach every challenge with creativity and precision.
-				</p>
+				<div class="about-content glass">
+					<div class="about-avatar">
+						<div class="avatar-ring">
+							<div class="avatar-inner">
+								<img src={profileImage} alt="Gio Staniell Belolo" class="avatar-img" />
+							</div>
+						</div>
+					</div>
 
-				<div class="about-stats">
-					<div class="stat-item glass">
-						<span class="stat-number">3+</span>
-						<span class="stat-label">Years Experience</span>
-					</div>
-					<div class="stat-item glass">
-						<span class="stat-number">10+</span>
-						<span class="stat-label">Projects Completed</span>
-					</div>
-					<div class="stat-item glass">
-						<span class="stat-number">5+</span>
-						<span class="stat-label">Technologies</span>
+					<div class="about-text">
+						<p class="text-body">
+							I'm a Full-Stack Software Developer with a passion for crafting exceptional digital
+							experiences. My journey in software development has equipped me with a diverse skill
+							set spanning modern frontend frameworks and robust backend technologies.
+						</p>
+						<p class="text-body">
+							I thrive on solving complex problems and turning ambitious ideas into elegant,
+							scalable solutions. Whether it's optimizing performance, architecting systems, or
+							creating intuitive user interfaces, I approach every challenge with creativity and
+							precision.
+						</p>
+
+						<div class="about-stats">
+							<div class="stat-item glass">
+								<span class="stat-number">3+</span>
+								<span class="stat-label">Years Experience</span>
+							</div>
+							<div class="stat-item glass">
+								<span class="stat-number">10+</span>
+								<span class="stat-label">Projects Completed</span>
+							</div>
+							<div class="stat-item glass">
+								<span class="stat-number">5+</span>
+								<span class="stat-label">Technologies</span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -65,13 +71,6 @@
 	.about-container {
 		max-width: 1080px;
 		width: 100%;
-		max-height: 90vh;
-	}
-
-	@media (max-width: 768px) {
-		.about-container {
-			max-height: none;
-		}
 	}
 
 	.about-content {
