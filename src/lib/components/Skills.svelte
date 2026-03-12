@@ -100,38 +100,49 @@
 
 <style>
 	.skills {
-		background: linear-gradient(180deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+		background: transparent;
 	}
 
 	.skills-container {
-		max-width: 900px;
+		max-width: 1080px;
 		width: 100%;
 	}
 
 	.skills-grid {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 1.5rem;
+		gap: 1rem;
 	}
 
 	.skill-category {
-		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 1.4rem 1.1rem 1.2rem;
 		text-align: center;
+		background: var(--color-panel);
 	}
 
 	.category-title {
-		font-size: 1rem;
-		font-weight: 600;
-		color: var(--color-accent-light);
-		margin-bottom: 1.25rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.55rem 0.8rem;
+		font-size: 0.8rem;
+		font-weight: 800;
+		color: var(--color-text-primary);
+		background: var(--color-sticker);
+		border: 3px solid var(--color-border);
+		box-shadow: 4px 4px 0 var(--color-shadow);
+		margin-bottom: 1.1rem;
 		text-transform: uppercase;
-		letter-spacing: 0.1em;
+		letter-spacing: 0.08em;
 	}
 
 	.skills-list {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
+		gap: 0.65rem;
 		justify-content: center;
 	}
 
@@ -139,30 +150,33 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		padding: 0.5rem 1rem;
-		background: rgba(var(--color-accent-base), 0.1);
-		border: 1px solid rgba(var(--color-accent-base), 0.2);
-		border-radius: 0.5rem;
+		padding: 0.65rem 0.9rem;
+		background: var(--color-panel-strong);
+		border: 3px solid var(--color-border);
 		font-size: 0.875rem;
 		color: var(--color-text-primary);
-		transition: all var(--transition-smooth);
+		font-weight: 700;
+		transition:
+			transform var(--transition-smooth),
+			box-shadow var(--transition-smooth),
+			background-color var(--transition-smooth);
+		box-shadow: 4px 4px 0 var(--color-shadow);
 	}
 
 	:global(.skill-icon) {
-		color: var(--color-accent-light);
+		color: var(--color-accent);
 		flex-shrink: 0;
 	}
 
 	.skill-tag:hover {
-		background: rgba(var(--color-accent-base), 0.2);
-		border-color: rgba(var(--color-accent-base), 0.4);
-		transform: translateY(-2px);
-		box-shadow: 0 4px 12px var(--color-accent-glow);
+		background: var(--color-accent-soft);
+		transform: translate(-2px, -2px) rotate(-1deg);
+		box-shadow: 6px 6px 0 var(--color-shadow);
 	}
 
 	.skills-note {
 		text-align: center;
-		margin-top: 2rem;
+		margin-top: 1.5rem;
 	}
 
 	@media (max-width: 768px) {
@@ -176,7 +190,7 @@
 			gap: 0.75rem;
 		}
 		.skill-category {
-			padding: 0.75rem;
+			padding: 0.9rem;
 		}
 		.category-title {
 			margin-bottom: 0.75rem;

@@ -25,7 +25,7 @@
 </script>
 
 <section {id} class="section contact">
-	<div class="contact-container">
+	<div class="contact-container glass">
 		<div class="section-header">
 			<span class="section-label">Get in Touch</span>
 			<h2 class="heading-lg">Let's <span class="gradient-text">Connect</span></h2>
@@ -72,34 +72,31 @@
 
 <style>
 	.contact {
-		background:
-			radial-gradient(
-				ellipse at center bottom,
-				rgba(var(--color-accent-base), 0.1) 0%,
-				transparent 60%
-			),
-			var(--color-bg-primary);
+		background: transparent;
 	}
 
 	.contact-container {
-		max-width: 600px;
+		max-width: 760px;
 		width: 100%;
 		text-align: center;
+		padding: clamp(1.4rem, 4vw, 2.3rem);
+		background: var(--color-panel);
 	}
 
 	.contact-description {
-		max-width: 450px;
+		max-width: 540px;
 		margin: 1rem auto 0;
 	}
 
 	.contact-cta {
-		margin-bottom: 2.5rem;
+		margin: 2rem 0;
 	}
 
 	.socials {
 		display: flex;
 		gap: 1rem;
 		justify-content: center;
+		flex-wrap: wrap;
 	}
 
 	.social-link {
@@ -107,41 +104,64 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 0.5rem;
-		padding: 1.25rem 1.5rem;
+		padding: 1rem 1.2rem;
+		min-width: 132px;
+		background: var(--color-panel-strong);
 		color: var(--color-text-secondary);
-		transition: all var(--transition-smooth);
+		transition:
+			transform var(--transition-smooth),
+			box-shadow var(--transition-smooth),
+			background-color var(--transition-smooth),
+			color var(--transition-smooth);
 	}
 
 	.social-link:hover {
-		color: var(--color-accent-light);
-		transform: translateY(-4px);
-		box-shadow: 0 8px 24px var(--color-accent-glow);
+		color: var(--color-text-primary);
+		background: var(--color-accent-soft);
+		transform: translate(-2px, -2px);
+		box-shadow: 8px 8px 0 var(--color-shadow);
 	}
 
 	.social-name {
-		font-size: 0.75rem;
-		font-weight: 500;
+		font-size: 0.76rem;
+		font-weight: 800;
 		text-transform: uppercase;
-		letter-spacing: 0.05em;
+		letter-spacing: 0.08em;
 	}
 
 	.footer {
 		position: absolute;
-		bottom: 1.5rem;
+		bottom: 1rem;
 		left: 0;
 		right: 0;
 		text-align: center;
 	}
 
+	.footer :global(.text-small) {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem 0.8rem;
+		background: var(--color-panel);
+		border: 3px solid var(--color-border);
+		box-shadow: 4px 4px 0 var(--color-shadow);
+		color: var(--color-text-secondary);
+	}
+
 	@media (max-width: 640px) {
 		.socials {
 			flex-direction: column;
-			align-items: center;
+			align-items: stretch;
+		}
+
+		.footer {
+			position: static;
+			margin-top: 1.5rem;
 		}
 
 		.social-link {
 			width: 100%;
-			max-width: 200px;
+			max-width: none;
 			flex-direction: row;
 			justify-content: center;
 		}

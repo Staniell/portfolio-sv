@@ -106,7 +106,8 @@
 		return list;
 	});
 
-	let scrollContainer: HTMLUListElement;
+	let scrollContainer: HTMLDivElement;
+	let scrollTrack: HTMLUListElement;
 	let canScrollLeft = $state(false);
 	let canScrollRight = $state(true);
 	let activeIndex = $state(0);
@@ -125,12 +126,12 @@
 	}
 
 	function getProjectSnapOffsets() {
-		if (!scrollContainer) return [];
+		if (!scrollContainer || !scrollTrack) return [];
 
 		const containerCenter = scrollContainer.clientWidth / 2;
 		const maxScrollLeft = Math.max(scrollContainer.scrollWidth - scrollContainer.clientWidth, 0);
 
-		return Array.from(scrollContainer.children).flatMap((child) => {
+		return Array.from(scrollTrack.children).flatMap((child) => {
 			if (!(child instanceof HTMLElement)) {
 				return [];
 			}
@@ -231,7 +232,9 @@
 				<ChevronLeft size={24} />
 			</button>
 
-			<ul
+			<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+			<div
 				class="projects-slider hide-scrollbar"
 				class:dragging={isDragging}
 				bind:this={scrollContainer}
@@ -239,70 +242,74 @@
 				onmousedown={handleMouseDown}
 				onkeydown={handleKeyDown}
 				tabindex="0"
-				role="list"
-				aria-label="Featured projects"
+				role="region"
+				aria-label="Featured projects carousel"
 			>
-				{#each projects as project (project.title)}
-					<li class="project-card-wrapper" role="listitem">
-						<div class="project-card glass">
-							<div class="project-image">
-								<img src={project.image} alt={project.title} loading="lazy" draggable="false" />
-							</div>
+				<ul class="projects-track" bind:this={scrollTrack} role="list">
+					{#each projects as project (project.title)}
+						<li class="project-card-wrapper" role="listitem">
+							<div class="project-card glass">
+								<div class="project-image-frame">
+									<div class="project-links-top">
+										<a
+											href={project.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="icon-btn-sm"
+											onmousedown={(e) => e.stopPropagation()}
+											aria-label={project.url.includes('github.com')
+												? 'View Source on GitHub'
+												: 'Visit Website'}
+										>
+											{#if project.url.includes('github.com')}
+												<Github size={18} />
+											{:else}
+												<ExternalLink size={18} />
+											{/if}
+										</a>
+									</div>
 
-							<div class="project-content">
-								<div class="project-links-top">
-									<a
-										href={project.url}
-										target="_blank"
-										rel="noopener noreferrer"
-										class="icon-btn-sm"
-										onmousedown={(e) => e.stopPropagation()}
-										aria-label={project.url.includes('github.com')
-											? 'View Source on GitHub'
-											: 'Visit Website'}
-									>
-										{#if project.url.includes('github.com')}
-											<Github size={18} />
-										{:else}
-											<ExternalLink size={18} />
-										{/if}
-									</a>
+									<div class="project-image">
+										<img src={project.image} alt={project.title} loading="lazy" draggable="false" />
+									</div>
 								</div>
 
-								<h3 class="project-title">
-									<a
-										href={project.url}
-										target="_blank"
-										rel="noopener noreferrer"
-										onmousedown={(e) => e.stopPropagation()}
-									>
-										{project.title}
-									</a>
-								</h3>
-								<div class="project-tech">
-									{#each project.tech as t}
-										<span class="tech-badge">{t}</span>
-									{/each}
-								</div>
-								<p class="project-description">{project.description}</p>
-							</div>
+								<div class="project-content">
+									<h3 class="project-title">
+										<a
+											href={project.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											onmousedown={(e) => e.stopPropagation()}
+										>
+											{project.title}
+										</a>
+									</h3>
+									<div class="project-tech">
+										{#each project.tech as t}
+											<span class="tech-badge">{t}</span>
+										{/each}
+									</div>
+									<p class="project-description">{project.description}</p>
 
-							<div class="project-image-overlay">
-								<a
-									href={project.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="visit-btn-overlay"
-									onmousedown={(e) => e.stopPropagation()}
-								>
-									<span>Visit Project</span>
-									<ExternalLink size={20} />
-								</a>
+									<div class="project-actions">
+										<a
+											href={project.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="visit-btn-overlay"
+											onmousedown={(e) => e.stopPropagation()}
+										>
+											<span>Visit Project</span>
+											<ExternalLink size={20} />
+										</a>
+									</div>
+								</div>
 							</div>
-						</div>
-					</li>
-				{/each}
-			</ul>
+						</li>
+					{/each}
+				</ul>
+			</div>
 
 			<button
 				class="slider-nav next"
@@ -329,13 +336,13 @@
 
 <style>
 	.projects {
-		background: var(--color-bg-primary);
+		background: transparent;
 	}
 
 	.projects-container {
 		max-width: 1200px;
 		width: 100%;
-		padding: 0 1rem;
+		padding: 0 0.5rem;
 	}
 
 	.slider-wrapper {
@@ -344,13 +351,18 @@
 	}
 
 	.projects-slider {
-		display: flex;
-		gap: 2rem;
 		overflow-x: auto;
 		scroll-snap-type: x mandatory;
-		padding: 1rem 0 3rem;
+		padding: 0.75rem 0.2rem 3rem;
 		scroll-behavior: smooth;
+		margin: 0;
+	}
+
+	.projects-track {
+		display: flex;
+		gap: 1.5rem;
 		list-style: none;
+		padding: 0;
 		margin: 0;
 	}
 
@@ -374,195 +386,187 @@
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
-		border-radius: 1.5rem;
-		transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+		transition:
+			transform var(--transition-smooth),
+			box-shadow var(--transition-smooth),
+			background-color var(--transition-smooth);
 		cursor: grab;
 		position: relative;
-		border: 1px solid rgba(255, 255, 255, 0.05);
+		background: var(--color-panel);
 	}
 
 	.projects-slider.dragging .project-card {
 		cursor: grabbing;
 	}
 
+	.project-image-frame {
+		position: relative;
+		padding: 1rem;
+		background: var(--color-accent-soft);
+		border-bottom: 3px solid var(--color-border);
+	}
+
 	.project-image {
 		width: 100%;
-		height: 100%;
-		position: absolute;
-		inset: 0;
+		height: clamp(220px, 34vh, 330px);
+		position: relative;
 		overflow: hidden;
-		pointer-events: none;
+		border: 3px solid var(--color-border);
+		background: var(--color-panel);
 	}
 
 	.project-image img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+		transition: transform var(--transition-smooth);
 	}
 
 	.project-card:hover .project-image img {
-		transform: scale(1.08);
+		transform: scale(1.04);
 	}
 
 	.project-card:hover {
-		transform: translateY(-5px);
-		border-color: rgba(var(--color-accent-base), 0.3);
-		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+		transform: translate(-4px, -4px);
+		box-shadow: 14px 14px 0 var(--color-shadow);
 	}
 
 	.project-links-top {
 		position: absolute;
-		top: 1.5rem;
-		right: 1.5rem;
+		top: 1.35rem;
+		right: 1.35rem;
 		z-index: 20;
-		display: none;
+		display: block;
 	}
 
 	.icon-btn-sm {
-		width: 36px;
-		height: 36px;
-		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.1);
-		backdrop-filter: blur(10px);
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		color: white;
+		width: 48px;
+		height: 48px;
+		background: var(--color-sticker);
+		border: 3px solid var(--color-border);
+		color: var(--color-text-primary);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		transition: all 0.3s ease;
+		box-shadow: 4px 4px 0 var(--color-shadow);
+		transition:
+			transform var(--transition-smooth),
+			box-shadow var(--transition-smooth),
+			background-color var(--transition-smooth);
 	}
 
 	.icon-btn-sm:hover {
-		background: white;
-		color: black;
-		transform: scale(1.1);
-	}
-
-	.project-image-overlay {
-		position: absolute;
-		inset: 0;
-		background: rgba(10, 10, 15, 0.4);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		opacity: 0;
-		transition: opacity 0.3s ease;
-		z-index: 5;
-		pointer-events: none;
-	}
-
-	.project-card:hover .project-image-overlay {
-		opacity: 1;
-		pointer-events: auto;
+		background: var(--color-accent);
+		transform: translate(-2px, -2px);
+		box-shadow: 6px 6px 0 var(--color-shadow);
 	}
 
 	.visit-btn-overlay {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.75rem;
-		padding: 1rem 1.75rem;
-		background: white;
-		color: black;
+		justify-content: center;
+		padding: 0.95rem 1.35rem;
+		background: var(--color-accent);
+		color: var(--color-text-primary);
 		font-weight: 700;
-		border-radius: 3rem;
-		transform: translateY(10px);
-		transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+		border: 3px solid var(--color-border);
+		box-shadow: 4px 4px 0 var(--color-shadow);
+		transition:
+			transform var(--transition-smooth),
+			box-shadow var(--transition-smooth),
+			background-color var(--transition-smooth);
 		text-transform: uppercase;
 		font-size: 0.875rem;
 		letter-spacing: 0.05em;
 	}
 
-	.project-card:hover .visit-btn-overlay {
-		transform: translateY(0);
-	}
-
 	.visit-btn-overlay:hover {
-		background: var(--color-accent-light);
-		color: white;
-		box-shadow: 0 10px 30px var(--color-accent-glow);
+		background: var(--color-sticker);
+		transform: translate(-2px, -2px);
+		box-shadow: 6px 6px 0 var(--color-shadow);
 	}
 
 	.project-content {
 		position: relative;
-		margin-top: auto;
-		padding: 6rem 2.5rem 2.5rem;
+		padding: 1.25rem 1.35rem 1.5rem;
 		display: flex;
 		flex-direction: column;
-		justify-content: flex-end;
-		background: linear-gradient(
-			to top,
-			#0a0a0f 0%,
-			rgba(10, 10, 15, 0.98) 25%,
-			rgba(10, 10, 15, 0.85) 50%,
-			rgba(10, 10, 15, 0.4) 80%,
-			transparent 100%
-		);
+		justify-content: flex-start;
+		background: var(--color-panel);
 		z-index: 1;
-		min-height: 450px;
+		min-height: 265px;
 	}
 
 	.project-title {
-		font-size: 1.75rem;
-		font-weight: 700;
-		margin-bottom: 1rem;
-		color: white;
-		text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+		font-size: clamp(1.4rem, 3vw, 2rem);
+		font-family: var(--font-body);
+		font-weight: 900;
+		text-transform: uppercase;
+		letter-spacing: -0.06em;
+		margin: 0 0 0.9rem;
+		color: var(--color-text-primary);
 	}
 
 	.project-title a {
-		color: white;
+		color: var(--color-text-primary);
 		text-decoration: none;
-		transition: color 0.3s ease;
+		transition: color var(--transition-smooth);
 	}
 
 	.project-title a:hover {
-		color: var(--color-accent-light);
+		color: var(--color-accent);
 	}
 
 	.project-tech {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5rem;
-		margin-bottom: 1.5rem;
+		margin-bottom: 1rem;
 	}
 
 	.tech-badge {
-		font-size: 0.75rem;
-		font-weight: 600;
-		padding: 0.25rem 0.75rem;
-		background: rgba(var(--color-accent-base), 0.15);
-		backdrop-filter: blur(4px);
-		-webkit-backdrop-filter: blur(4px);
-		color: var(--color-accent-light);
-		border-radius: 2rem;
-		border: 1px solid rgba(var(--color-accent-base), 0.3);
+		font-size: 0.76rem;
+		font-weight: 800;
+		padding: 0.4rem 0.7rem;
+		background: var(--color-panel-strong);
+		color: var(--color-text-primary);
+		border: 2px solid var(--color-border);
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
 	}
 
 	.project-description {
-		font-size: 1rem;
+		font-size: 0.98rem;
 		line-height: 1.6;
 		color: var(--color-text-secondary);
-		text-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+		margin: 0;
+	}
+
+	.project-actions {
+		display: flex;
+		margin-top: 1.25rem;
 	}
 
 	.slider-nav {
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
-		width: 44px;
-		height: 44px;
-		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.1);
-		backdrop-filter: blur(10px);
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		color: white;
+		width: 56px;
+		height: 56px;
+		background: var(--color-sticker);
+		border: 3px solid var(--color-border);
+		color: var(--color-text-primary);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
 		z-index: 20;
-		transition: all 0.3s ease;
+		box-shadow: var(--shadow-brutal);
+		transition:
+			transform var(--transition-smooth),
+			box-shadow var(--transition-smooth),
+			background-color var(--transition-smooth);
 	}
 
 	.slider-nav.hidden {
@@ -573,43 +577,44 @@
 
 	.slider-nav:hover {
 		background: var(--color-accent);
-		border-color: var(--color-accent);
-		box-shadow: 0 0 20px var(--color-accent-glow);
+		transform: translate(-2px, calc(-50% - 2px));
+		box-shadow: 8px 8px 0 var(--color-shadow);
 	}
 
 	.slider-nav.prev {
-		left: -1rem;
+		left: -0.5rem;
 	}
 	.slider-nav.next {
-		right: -1rem;
+		right: -0.5rem;
 	}
 
 	.slider-pagination {
 		display: flex;
 		justify-content: center;
-		gap: 0.75rem;
+		gap: 0.8rem;
 		margin-top: 1rem;
 	}
 
 	.pagination-dot {
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.2);
-		border: none;
+		width: 18px;
+		height: 18px;
+		background: var(--color-panel);
+		border: 3px solid var(--color-border);
 		padding: 0;
 		cursor: pointer;
-		transition: all 0.3s ease;
+		box-shadow: 4px 4px 0 var(--color-shadow);
+		transition:
+			transform var(--transition-smooth),
+			box-shadow var(--transition-smooth),
+			background-color var(--transition-smooth),
+			width var(--transition-smooth);
 	}
 
 	.pagination-dot.active {
-		background: var(--color-accent-light);
-		box-shadow: 0 0 10px var(--color-accent-glow);
-		width: 24px;
-		border-radius: 4px;
+		background: var(--color-accent);
+		width: 42px;
 	}
 
-	/* Hidden scrollbar but functional */
 	.hide-scrollbar::-webkit-scrollbar {
 		display: none;
 	}
@@ -620,35 +625,40 @@
 
 	@media (max-width: 968px) {
 		.project-card {
-			max-width: 500px;
+			max-width: 560px;
 		}
+
+		.project-image {
+			height: 240px;
+		}
+
 		.project-content {
-			padding: 2.5rem 1.5rem 1.5rem;
-			min-height: 400px;
+			padding: 1.15rem;
+			min-height: 300px;
 		}
+
 		.project-title {
 			font-size: 1.5rem;
 		}
+
 		.slider-nav {
 			display: none;
-		}
-		.project-image-overlay {
-			display: none; /* Hide overlay buttons on mobile, rely on title link and top-right btn */
-		}
-		.project-links-top {
-			display: block;
-			top: 1rem;
-			right: 1rem;
 		}
 	}
 
 	@media (max-height: 750px) {
 		.project-card {
-			max-width: 700px;
+			max-width: 760px;
 		}
+
+		.project-image {
+			height: 200px;
+		}
+
 		.project-content {
-			padding: 1.5rem;
+			padding: 1rem;
 		}
+
 		.section-header {
 			margin-bottom: 1.5rem;
 		}
