@@ -26,7 +26,7 @@
 	];
 </script>
 
-<section {id} class="section contact">
+<section {id} class="section section--dark contact">
 	<div class="section-fit-shell" use:fitSection>
 		<div class="section-fit-viewport">
 			<div class="contact-shell section-fit-content" data-fit-content>

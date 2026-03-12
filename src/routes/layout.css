@@ -18,6 +18,25 @@
 	--color-accent-soft: #ffd5cc;
 	--color-accent-contrast: #fff8ee;
 	--color-sticker: #ffe16a;
+	--nav-top-offset: 1rem;
+	--nav-side-offset: 1rem;
+	--nav-rail-offset: 1rem;
+	--nav-mobile-shell-offset: 0.5rem;
+	--nav-mobile-panel-side-offset: 0.75rem;
+	--nav-safe-top: clamp(6rem, 11vh, 7.75rem);
+	--nav-safe-top-mobile: clamp(5.5rem, 16vw, 7rem);
+	--nav-drawer-top: 5.6rem;
+	--rail-safe-right: clamp(4.75rem, 7vw, 6.25rem);
+	--rail-safe-right-mobile: 1rem;
+	--nav-fit-inset-top: 40;
+	--section-fit-bleed-y: 40;
+	--projects-fit-bleed-x: 56;
+	--color-section-surface-light: #fbf5eb;
+	--color-section-surface-dark: #eedfcb;
+	--color-section-ink-soft: rgba(17, 17, 17, 0.07);
+	--color-section-ink-dark: rgba(17, 17, 17, 0.14);
+	--color-section-ink-accent: rgba(var(--color-accent-base), 0.16);
+	--color-section-ink-accent-strong: rgba(var(--color-accent-base), 0.26);
 	--transition-smooth: 180ms ease;
 	--shadow-brutal: 6px 6px 0 var(--color-shadow);
 	--shadow-brutal-lg: 10px 10px 0 var(--color-shadow);
@@ -114,6 +133,15 @@ body {
 .section {
 	--section-padding-top: clamp(6rem, 9vh, 7.5rem);
 	--section-padding-bottom: clamp(3rem, 7vh, 4.5rem);
+	--section-surface: var(--color-section-surface-light);
+	--section-stamp-top-safe: var(--nav-safe-top);
+	--section-stamp-right-safe: var(--rail-safe-right);
+	--section-stamp-primary: none;
+	--section-stamp-secondary: none;
+	--section-stamp-primary-size: 0 0;
+	--section-stamp-secondary-size: 0 0;
+	--section-stamp-primary-position: left 0 top 0;
+	--section-stamp-secondary-position: left 0 top 0;
 	min-height: 100vh;
 	min-height: 100svh;
 	height: 100vh;
@@ -126,12 +154,144 @@ body {
 	justify-content: center;
 	align-items: center;
 	position: relative;
+	isolation: isolate;
 	overflow: hidden;
 	padding: var(--section-padding-top) clamp(1rem, 3.5vw, 2.5rem) var(--section-padding-bottom);
 	box-sizing: border-box;
 	border-top: 3px solid var(--color-border);
 	border-bottom: 3px solid var(--color-border);
 	margin-top: -3px;
+}
+
+.section::before,
+.section::after {
+	content: '';
+	position: absolute;
+	pointer-events: none;
+	inset: 0;
+}
+
+.section::before {
+	background: var(--section-surface);
+	z-index: 0;
+}
+
+.section::after {
+	background-image: var(--section-stamp-primary), var(--section-stamp-secondary);
+	background-repeat: no-repeat;
+	background-size: var(--section-stamp-primary-size), var(--section-stamp-secondary-size);
+	background-position:
+		var(--section-stamp-primary-position), var(--section-stamp-secondary-position);
+	z-index: 1;
+}
+
+.section--light {
+	--section-surface: var(--color-section-surface-light);
+}
+
+.section--dark {
+	--section-surface: var(--color-section-surface-dark);
+}
+
+.hero.section::after {
+	--section-stamp-primary: linear-gradient(
+		var(--color-section-ink-accent-strong),
+		var(--color-section-ink-accent-strong)
+	);
+	--section-stamp-secondary: linear-gradient(
+		var(--color-section-ink-dark),
+		var(--color-section-ink-dark)
+	);
+	--section-stamp-primary-size: clamp(11rem, 19vw, 17rem) clamp(6.5rem, 12vw, 9.5rem);
+	--section-stamp-secondary-size: clamp(11rem, 19vw, 17rem) clamp(6.5rem, 12vw, 9.5rem);
+	--section-stamp-primary-position: left clamp(1rem, 4vw, 3.5rem) top
+		calc(var(--section-stamp-top-safe) + 0.75rem);
+	--section-stamp-secondary-position: left clamp(1.45rem, 4.4vw, 4rem) top
+		calc(var(--section-stamp-top-safe) + 1.3rem);
+}
+
+.about.section::after {
+	--section-stamp-primary: radial-gradient(
+		circle,
+		var(--color-section-ink-accent) 0 62%,
+		transparent 64%
+	);
+	--section-stamp-secondary: linear-gradient(
+		var(--color-section-ink-soft),
+		var(--color-section-ink-soft)
+	);
+	--section-stamp-primary-size: clamp(7rem, 14vw, 10rem) clamp(7rem, 14vw, 10rem);
+	--section-stamp-secondary-size: clamp(1rem, 1.8vw, 1.4rem) clamp(8rem, 16vw, 11rem);
+	--section-stamp-primary-position: right calc(var(--section-stamp-right-safe) + 1.75rem) center;
+	--section-stamp-secondary-position: left clamp(1rem, 3vw, 2.5rem) bottom clamp(4.25rem, 9vh, 6rem);
+}
+
+.experience.section::after {
+	--section-stamp-primary: linear-gradient(
+		var(--color-section-ink-dark),
+		var(--color-section-ink-dark)
+	);
+	--section-stamp-secondary: linear-gradient(
+		var(--color-section-ink-accent),
+		var(--color-section-ink-accent)
+	);
+	--section-stamp-primary-size: clamp(1rem, 1.8vw, 1.35rem) clamp(11rem, 22vw, 16rem);
+	--section-stamp-secondary-size: clamp(2rem, 3vw, 2.75rem) clamp(8rem, 15vw, 11rem);
+	--section-stamp-primary-position: left clamp(1rem, 3.5vw, 2.75rem) top
+		calc(50% - clamp(6rem, 11vw, 8rem));
+	--section-stamp-secondary-position: left clamp(2.25rem, 5vw, 4.25rem) top
+		calc(50% - clamp(4rem, 8vw, 5.5rem));
+}
+
+.projects.section::after {
+	--section-stamp-primary: linear-gradient(
+		var(--color-section-ink-dark),
+		var(--color-section-ink-dark)
+	);
+	--section-stamp-secondary: linear-gradient(
+		var(--color-section-ink-accent-strong),
+		var(--color-section-ink-accent-strong)
+	);
+	--section-stamp-primary-size: clamp(10rem, 18vw, 15rem) clamp(8rem, 15vw, 11rem);
+	--section-stamp-secondary-size: clamp(10rem, 18vw, 15rem) clamp(8rem, 15vw, 11rem);
+	--section-stamp-primary-position: left clamp(1.5rem, 4vw, 3rem) top
+		calc(var(--section-stamp-top-safe) + 1rem);
+	--section-stamp-secondary-position: left clamp(1rem, 3.5vw, 2.5rem) top
+		calc(var(--section-stamp-top-safe) + 0.45rem);
+}
+
+.skills.section::after {
+	--section-stamp-primary: linear-gradient(
+		var(--color-section-ink-accent),
+		var(--color-section-ink-accent)
+	);
+	--section-stamp-secondary: linear-gradient(
+		var(--color-section-ink-dark),
+		var(--color-section-ink-dark)
+	);
+	--section-stamp-primary-size: clamp(4.5rem, 8vw, 6rem) clamp(1rem, 1.7vw, 1.25rem);
+	--section-stamp-secondary-size: clamp(3.5rem, 6vw, 4.5rem) clamp(1rem, 1.7vw, 1.25rem);
+	--section-stamp-primary-position: left clamp(1.25rem, 3.5vw, 3rem) top
+		calc(var(--section-stamp-top-safe) + 1rem);
+	--section-stamp-secondary-position: left clamp(2rem, 5vw, 4.5rem) top
+		calc(var(--section-stamp-top-safe) + 2.8rem);
+}
+
+.contact.section::after {
+	--section-stamp-primary: linear-gradient(
+		var(--color-section-ink-dark),
+		var(--color-section-ink-dark)
+	);
+	--section-stamp-secondary: linear-gradient(
+		var(--color-section-ink-accent-strong),
+		var(--color-section-ink-accent-strong)
+	);
+	--section-stamp-primary-size: clamp(11rem, 20vw, 16rem) clamp(2.2rem, 4vw, 3.4rem);
+	--section-stamp-secondary-size: clamp(11rem, 20vw, 16rem) clamp(2.2rem, 4vw, 3.4rem);
+	--section-stamp-primary-position: right calc(var(--section-stamp-right-safe) + 1rem) bottom
+		clamp(4rem, 9vh, 5.75rem);
+	--section-stamp-secondary-position: right calc(var(--section-stamp-right-safe) + 1.45rem) bottom
+		clamp(3.4rem, 8vh, 5.15rem);
 }
 
 .section-fit-shell {
@@ -144,6 +304,8 @@ body {
 	padding-top: var(--fit-inset-top, 0px);
 	padding-bottom: var(--fit-inset-bottom, 0px);
 	box-sizing: border-box;
+	position: relative;
+	z-index: 2;
 }
 
 .section-fit-viewport {
@@ -163,12 +325,40 @@ body {
 
 @media (max-width: 768px) {
 	.section {
+		--section-stamp-top-safe: var(--nav-safe-top-mobile);
+		--section-stamp-right-safe: var(--rail-safe-right-mobile);
 		height: auto;
 		min-height: 100svh;
 		scroll-snap-align: none;
 		overflow: visible;
 		padding: 6rem 1rem 4rem;
-		scroll-margin-top: 5.5rem;
+		scroll-margin-top: var(--nav-drawer-top);
+	}
+
+	.hero.section::after,
+	.projects.section::after {
+		--section-stamp-primary-size: 8.25rem 5rem;
+		--section-stamp-secondary-size: 8.25rem 5rem;
+	}
+
+	.about.section::after {
+		--section-stamp-primary-size: 5.5rem 5.5rem;
+		--section-stamp-secondary-size: 5.5rem 5.5rem;
+	}
+
+	.experience.section::after {
+		--section-stamp-primary-size: 1rem 8rem;
+		--section-stamp-secondary-size: 1.5rem 6rem;
+	}
+
+	.skills.section::after {
+		--section-stamp-primary-size: 3.5rem 1rem;
+		--section-stamp-secondary-size: 3rem 1rem;
+	}
+
+	.contact.section::after {
+		--section-stamp-primary-size: 8.5rem 2rem;
+		--section-stamp-secondary-size: 8.5rem 2rem;
 	}
 
 	.section-fit-shell,

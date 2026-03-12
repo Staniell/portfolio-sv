@@ -17,45 +17,58 @@ function floorToPrecision(value) {
 /**
  * @param {string | undefined} value
  * @param {number} fallback
+ * @param {(reference: string) => string | undefined} [resolveReference]
  */
-function parseBleedValue(value, fallback) {
+function parseBleedValue(value, fallback, resolveReference) {
 	if (value === undefined) {
 		return fallback;
 	}
 
-	const parsed = Number(value);
+	const cssVarMatch = /^var\((--[^)\s,]+)\)$/.exec(value.trim());
+	const resolvedValue = cssVarMatch ? resolveReference?.(cssVarMatch[1]) : value;
+	const parsed = Number((resolvedValue ?? value).trim());
 	return Number.isFinite(parsed) ? parsed : fallback;
 }
 
 /**
  * @param {{ fitBleed?: string; fitBleedX?: string; fitBleedY?: string; fitBleedLeft?: string; fitBleedRight?: string; fitBleedTop?: string; fitBleedBottom?: string }} dataset
+ * @param {(reference: string) => string | undefined} [resolveReference]
  */
-export function getFitBleed(dataset) {
-	const defaultBleed = parseBleedValue(dataset.fitBleed, 24);
+export function getFitBleed(dataset, resolveReference) {
+	const defaultBleed = parseBleedValue(dataset.fitBleed, 24, resolveReference);
 	const hasDirectionalBleedX =
 		dataset.fitBleedLeft !== undefined || dataset.fitBleedRight !== undefined;
 	const hasDirectionalBleedY =
 		dataset.fitBleedTop !== undefined || dataset.fitBleedBottom !== undefined;
 
 	return {
-		bleedX: parseBleedValue(dataset.fitBleedX, hasDirectionalBleedX ? 0 : defaultBleed),
-		bleedY: parseBleedValue(dataset.fitBleedY, hasDirectionalBleedY ? 0 : defaultBleed),
-		bleedLeft: parseBleedValue(dataset.fitBleedLeft, 0),
-		bleedRight: parseBleedValue(dataset.fitBleedRight, 0),
-		bleedTop: parseBleedValue(dataset.fitBleedTop, 0),
-		bleedBottom: parseBleedValue(dataset.fitBleedBottom, 0)
+		bleedX: parseBleedValue(
+			dataset.fitBleedX,
+			hasDirectionalBleedX ? 0 : defaultBleed,
+			resolveReference
+		),
+		bleedY: parseBleedValue(
+			dataset.fitBleedY,
+			hasDirectionalBleedY ? 0 : defaultBleed,
+			resolveReference
+		),
+		bleedLeft: parseBleedValue(dataset.fitBleedLeft, 0, resolveReference),
+		bleedRight: parseBleedValue(dataset.fitBleedRight, 0, resolveReference),
+		bleedTop: parseBleedValue(dataset.fitBleedTop, 0, resolveReference),
+		bleedBottom: parseBleedValue(dataset.fitBleedBottom, 0, resolveReference)
 	};
 }
 
 /**
  * @param {{ fitInset?: string; fitInsetTop?: string; fitInsetBottom?: string }} dataset
+ * @param {(reference: string) => string | undefined} [resolveReference]
  */
-export function getFitInsets(dataset) {
-	const defaultInset = parseBleedValue(dataset.fitInset, 0);
+export function getFitInsets(dataset, resolveReference) {
+	const defaultInset = parseBleedValue(dataset.fitInset, 0, resolveReference);
 
 	return {
-		insetTop: parseBleedValue(dataset.fitInsetTop, defaultInset),
-		insetBottom: parseBleedValue(dataset.fitInsetBottom, defaultInset)
+		insetTop: parseBleedValue(dataset.fitInsetTop, defaultInset, resolveReference),
+		insetBottom: parseBleedValue(dataset.fitInsetBottom, defaultInset, resolveReference)
 	};
 }
 
@@ -127,10 +140,15 @@ export function fitSection(node) {
 			return;
 		}
 
+		/** @param {string} reference */
+		const resolveReference = (reference) =>
+			getComputedStyle(node).getPropertyValue(reference).trim();
+
 		const { bleedX, bleedY, bleedLeft, bleedRight, bleedTop, bleedBottom } = getFitBleed(
-			node.dataset
+			node.dataset,
+			resolveReference
 		);
-		const { insetTop, insetBottom } = getFitInsets(node.dataset);
+		const { insetTop, insetBottom } = getFitInsets(node.dataset, resolveReference);
 
 		const { scale, fittedHeight } = getFitMetrics({
 			contentWidth: content.offsetWidth,

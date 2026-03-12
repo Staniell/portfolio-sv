@@ -32,13 +32,13 @@
 	];
 </script>
 
-<section {id} class="section experience">
+<section {id} class="section section--light experience">
 	<div
 		class="section-fit-shell"
 		use:fitSection
-		data-fit-inset-top="40"
-		data-fit-bleed-top="40"
-		data-fit-bleed-bottom="40"
+		data-fit-inset-top="var(--nav-fit-inset-top)"
+		data-fit-bleed-top="var(--section-fit-bleed-y)"
+		data-fit-bleed-bottom="var(--section-fit-bleed-y)"
 	>
 		<div class="section-fit-viewport">
 			<div class="experience-container section-fit-content" data-fit-content>
