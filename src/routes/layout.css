@@ -26,20 +26,31 @@
 	--max-content-width: 1160px;
 }
 
-body[data-theme='red'] {
-	--color-accent-base: 255, 90, 54;
+body[data-theme='sunset'],
+.app-shell[data-theme='sunset'] {
+	--color-accent-base: 234, 96, 67;
 	--color-accent: rgb(var(--color-accent-base));
-	--color-accent-soft: #ffd5cc;
+	--color-accent-soft: #ffd7cc;
 	--color-accent-contrast: #fff8ee;
-	--color-sticker: #ffe16a;
+	--color-sticker: #ffd166;
 }
 
-body[data-theme='purple'] {
-	--color-accent-base: 136, 102, 255;
+body[data-theme='marigold'],
+.app-shell[data-theme='marigold'] {
+	--color-accent-base: 224, 160, 32;
 	--color-accent: rgb(var(--color-accent-base));
-	--color-accent-soft: #e2d9ff;
-	--color-accent-contrast: #f8f4ff;
-	--color-sticker: #8ef0ff;
+	--color-accent-soft: #ffe8ad;
+	--color-accent-contrast: #fff7e3;
+	--color-sticker: #ffbf69;
+}
+
+body[data-theme='lagoon'],
+.app-shell[data-theme='lagoon'] {
+	--color-accent-base: 37, 158, 152;
+	--color-accent: rgb(var(--color-accent-base));
+	--color-accent-soft: #c8efe9;
+	--color-accent-contrast: #effcf9;
+	--color-sticker: #7bdff2;
 }
 
 html {
@@ -65,6 +76,16 @@ html::-webkit-scrollbar {
 }
 
 body {
+	background: var(--color-bg-primary);
+	color: var(--color-text-primary);
+	font-family: var(--font-body);
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	overflow-x: hidden;
+}
+
+.app-shell {
 	background:
 		linear-gradient(var(--color-grid) 1px, transparent 1px),
 		linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
@@ -79,10 +100,10 @@ body {
 		0 0;
 	color: var(--color-text-primary);
 	font-family: var(--font-body);
-	margin: 0;
-	padding: 0;
 	min-height: 100vh;
-	overflow-x: hidden;
+	min-height: 100svh;
+	display: flex;
+	flex-direction: column;
 }
 
 .h-screen-safe {
@@ -325,7 +346,7 @@ img {
 		scroll-snap-stop: normal;
 	}
 
-	body {
+	.app-shell {
 		background-size:
 			64px 64px,
 			64px 64px,

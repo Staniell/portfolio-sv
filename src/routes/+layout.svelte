@@ -1,17 +1,17 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { themeState } from '$lib/theme.svelte';
+	import type { LayoutProps } from './$types';
 
-	let { children } = $props();
+	let { children, data }: LayoutProps = $props();
 
 	$effect(() => {
-		document.body.setAttribute('data-theme', themeState.current);
+		document.body.setAttribute('data-theme', data.theme);
 	});
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
-<div style="min-height: 100vh; display: flex; flex-direction: column;">
+<div class="app-shell" data-theme={data.theme}>
 	{@render children()}
 </div>

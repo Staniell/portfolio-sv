@@ -85,27 +85,7 @@
 		}
 	];
 
-	import { themeState } from '$lib/theme.svelte';
-
-	const projects = $derived.by(() => {
-		const list = [...baseProjects];
-		if (themeState.current === 'purple') {
-			// Musebound (index 0) is already first in baseProjects, but let's be explicit
-			const musebound = list.find((p) => p.title === 'Musebound');
-			if (musebound) {
-				const others = list.filter((p) => p.title !== 'Musebound');
-				return [musebound, ...others];
-			}
-		} else {
-			// Red theme: OnlyHate (index 3) first
-			const onlyHate = list.find((p) => p.title === 'OnlyHate');
-			if (onlyHate) {
-				const others = list.filter((p) => p.title !== 'OnlyHate');
-				return [onlyHate, ...others];
-			}
-		}
-		return list;
-	});
+	const projects = baseProjects;
 
 	let scrollContainer: HTMLDivElement;
 	let scrollTrack: HTMLUListElement;
