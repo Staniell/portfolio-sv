@@ -210,7 +210,7 @@
 		background: var(--color-sticker);
 		border: 3px solid var(--color-border);
 		box-shadow: 4px 4px 0 var(--color-shadow);
-		cursor: pointer;
+		cursor: var(--cursor-pointer, pointer);
 		padding: 0.5rem;
 	}
 
@@ -276,7 +276,7 @@
 		font-weight: 800;
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
-		cursor: pointer;
+		cursor: var(--cursor-pointer, pointer);
 		transition:
 			transform var(--transition-smooth),
 			background-color var(--transition-smooth),
@@ -311,7 +311,7 @@
 		width: 18px;
 		height: 18px;
 		background: var(--color-panel);
-		cursor: pointer;
+		cursor: var(--cursor-pointer, pointer);
 		transition:
 			transform var(--transition-smooth),
 			background-color var(--transition-smooth),

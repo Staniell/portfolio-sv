@@ -1,4 +1,5 @@
 // Components
+export { default as CursorTheme } from './components/CursorTheme.svelte';
 export { default as Hero } from './components/Hero.svelte';
 export { default as About } from './components/About.svelte';
 export { default as Experience } from './components/Experience.svelte';

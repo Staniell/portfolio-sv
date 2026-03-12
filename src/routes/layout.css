@@ -423,7 +423,7 @@ body {
 		box-shadow var(--transition-smooth),
 		background-color var(--transition-smooth);
 	text-decoration: none;
-	cursor: pointer;
+	cursor: var(--cursor-pointer, pointer);
 	min-height: 52px;
 }
 

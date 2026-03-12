@@ -226,7 +226,7 @@
 		background: var(--color-sticker);
 		border: 3px solid var(--color-border);
 		box-shadow: var(--shadow-brutal);
-		cursor: pointer;
+		cursor: var(--cursor-pointer, pointer);
 		padding: 0.65rem;
 		z-index: 10;
 		color: var(--color-text-primary);

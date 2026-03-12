@@ -366,7 +366,7 @@
 	.projects-slider.dragging {
 		scroll-snap-type: none;
 		scroll-behavior: auto;
-		cursor: grabbing;
+		cursor: var(--cursor-grabbing, grabbing);
 	}
 
 	.project-card-wrapper {
@@ -387,13 +387,13 @@
 			transform var(--transition-smooth),
 			box-shadow var(--transition-smooth),
 			background-color var(--transition-smooth);
-		cursor: grab;
+		cursor: var(--cursor-grab, grab);
 		position: relative;
 		background: var(--color-panel);
 	}
 
 	.projects-slider.dragging .project-card {
-		cursor: grabbing;
+		cursor: var(--cursor-grabbing, grabbing);
 	}
 
 	.project-image-frame {
@@ -557,7 +557,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		cursor: pointer;
+		cursor: var(--cursor-pointer, pointer);
 		z-index: 20;
 		box-shadow: var(--shadow-brutal);
 		transition:
@@ -598,7 +598,7 @@
 		background: var(--color-panel);
 		border: 3px solid var(--color-border);
 		padding: 0;
-		cursor: pointer;
+		cursor: var(--cursor-pointer, pointer);
 		box-shadow: 4px 4px 0 var(--color-shadow);
 		transition:
 			transform var(--transition-smooth),
