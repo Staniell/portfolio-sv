@@ -98,3 +98,48 @@ test('supports explicit fit insets for fixed overlays like the desktop navbar', 
 		}
 	);
 });
+
+test('resolves CSS variable references for fit insets', () => {
+	assert.deepEqual(
+		getFitInsets(
+			{
+				fitInsetTop: 'var(--nav-fit-inset-top)',
+				fitInsetBottom: 'var(--section-fit-bleed-y)'
+			},
+			(reference) => {
+				if (reference === '--nav-fit-inset-top') return '40';
+				if (reference === '--section-fit-bleed-y') return '16';
+				return undefined;
+			}
+		),
+		{
+			insetTop: 40,
+			insetBottom: 16
+		}
+	);
+});
+
+test('resolves CSS variable references for fit bleed values', () => {
+	assert.deepEqual(
+		getFitBleed(
+			{
+				fitBleedX: 'var(--projects-fit-bleed-x)',
+				fitBleedTop: 'var(--section-fit-bleed-y)',
+				fitBleedBottom: 'var(--section-fit-bleed-y)'
+			},
+			(reference) => {
+				if (reference === '--projects-fit-bleed-x') return '56';
+				if (reference === '--section-fit-bleed-y') return '40';
+				return undefined;
+			}
+		),
+		{
+			bleedX: 56,
+			bleedY: 0,
+			bleedLeft: 0,
+			bleedRight: 0,
+			bleedTop: 40,
+			bleedBottom: 40
+		}
+	);
+});

@@ -14,7 +14,7 @@
 	}
 </script>
 
-<section {id} class="section hero">
+<section {id} class="section section--light hero">
 	<div class="section-fit-shell" use:fitSection>
 		<div class="section-fit-viewport">
 			<div class="hero-layout section-fit-content" data-fit-content>

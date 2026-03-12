@@ -196,14 +196,14 @@
 	}
 </script>
 
-<section {id} class="section projects">
+<section {id} class="section section--dark projects">
 	<div
 		class="section-fit-shell"
 		use:fitSection
-		data-fit-inset-top="40"
-		data-fit-bleed-x="56"
-		data-fit-bleed-top="40"
-		data-fit-bleed-bottom="40"
+		data-fit-inset-top="var(--nav-fit-inset-top)"
+		data-fit-bleed-x="var(--projects-fit-bleed-x)"
+		data-fit-bleed-top="var(--section-fit-bleed-y)"
+		data-fit-bleed-bottom="var(--section-fit-bleed-y)"
 	>
 		<div class="section-fit-viewport">
 			<div class="projects-container section-fit-content" data-fit-content>

@@ -9,7 +9,7 @@
 	let { id }: Props = $props();
 </script>
 
-<section {id} class="section about">
+<section {id} class="section section--dark about">
 	<div class="section-fit-shell" use:fitSection>
 		<div class="section-fit-viewport">
 			<div class="about-container section-fit-content" data-fit-content>

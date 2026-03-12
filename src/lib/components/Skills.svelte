@@ -68,7 +68,7 @@
 	];
 </script>
 
-<section {id} class="section skills">
+<section {id} class="section section--light skills">
 	<div class="section-fit-shell" use:fitSection>
 		<div class="section-fit-viewport">
 			<div class="skills-container section-fit-content" data-fit-content>
