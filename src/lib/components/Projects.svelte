@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-svelte';
 	import { onMount, tick } from 'svelte';
+	import { getClosestProjectIndex, getProjectSnapOffset } from './projects-slider.js';
 
 	interface Props {
 		id: string;
@@ -113,59 +114,77 @@
 	// Drag to scroll logic
 	let isDragging = $state(false);
 	let startX: number;
-	let scrollLeft: number;
+	let startScrollLeft: number;
 
 	function handleMouseDown(e: MouseEvent) {
+		if (!scrollContainer || e.button !== 0) return;
+
 		isDragging = true;
-		startX = e.pageX - scrollContainer.offsetLeft;
-		scrollLeft = scrollContainer.scrollLeft;
+		startX = e.pageX;
+		startScrollLeft = scrollContainer.scrollLeft;
 	}
 
-	function handleMouseLeave() {
-		isDragging = false;
+	function getProjectSnapOffsets() {
+		if (!scrollContainer) return [];
+
+		const containerCenter = scrollContainer.clientWidth / 2;
+		const maxScrollLeft = Math.max(scrollContainer.scrollWidth - scrollContainer.clientWidth, 0);
+
+		return Array.from(scrollContainer.children).flatMap((child) => {
+			if (!(child instanceof HTMLElement)) {
+				return [];
+			}
+
+			const centeredOffset = child.offsetLeft + child.offsetWidth / 2 - containerCenter;
+			return [Math.min(Math.max(centeredOffset, 0), maxScrollLeft)];
+		});
 	}
 
-	function handleMouseUp() {
-		if (!isDragging) return;
-		isDragging = false;
+	async function finishDrag() {
+		if (!isDragging || !scrollContainer) return;
 
-		// Manually trigger smooth snap to nearest card
-		const width = scrollContainer.clientWidth;
-		const targetIndex = Math.round(scrollContainer.scrollLeft / width);
+		isDragging = false;
+		await tick();
+
+		const targetIndex = getClosestProjectIndex(scrollContainer.scrollLeft, getProjectSnapOffsets());
 		scrollToIndex(targetIndex);
 	}
 
-	function handleMouseMove(e: MouseEvent) {
-		if (!isDragging) return;
+	function handleGlobalMouseUp() {
+		void finishDrag();
+	}
+
+	function handleGlobalMouseMove(e: MouseEvent) {
+		if (!isDragging || !scrollContainer) return;
+
 		e.preventDefault();
-		const x = e.pageX - scrollContainer.offsetLeft;
-		const walk = (x - startX) * 2;
-		scrollContainer.scrollLeft = scrollLeft - walk;
+		const walk = (e.pageX - startX) * 2;
+		scrollContainer.scrollLeft = startScrollLeft - walk;
 	}
 
 	function updateScrollState() {
 		if (!scrollContainer) return;
 
-		// Calculate active index based on scroll position
-		const width = scrollContainer.clientWidth;
-		activeIndex = Math.round(scrollContainer.scrollLeft / width);
+		const snapOffsets = getProjectSnapOffsets();
+		activeIndex = getClosestProjectIndex(scrollContainer.scrollLeft, snapOffsets);
 
-		// Update controls based on index for reliable visibility
 		canScrollLeft = activeIndex > 0;
-		canScrollRight = activeIndex < projects.length - 1;
+		canScrollRight = activeIndex < snapOffsets.length - 1;
 	}
 
 	function scrollToIndex(index: number) {
 		if (!scrollContainer) return;
-		const width = scrollContainer.clientWidth;
+
+		const snapOffsets = getProjectSnapOffsets();
 		scrollContainer.scrollTo({
-			left: index * width,
+			left: getProjectSnapOffset(index, snapOffsets),
 			behavior: 'smooth'
 		});
 	}
 
 	function scroll(direction: 'left' | 'right') {
-		const width = scrollContainer.clientWidth;
+		if (!scrollContainer) return;
+
 		const targetIndex = direction === 'left' ? activeIndex - 1 : activeIndex + 1;
 
 		if (targetIndex >= 0 && targetIndex < projects.length) {
@@ -175,7 +194,17 @@
 
 	onMount(() => {
 		updateScrollState();
+		window.addEventListener('mousemove', handleGlobalMouseMove);
+		window.addEventListener('mouseup', handleGlobalMouseUp);
+		window.addEventListener('resize', updateScrollState);
+
+		return () => {
+			window.removeEventListener('mousemove', handleGlobalMouseMove);
+			window.removeEventListener('mouseup', handleGlobalMouseUp);
+			window.removeEventListener('resize', updateScrollState);
+		};
 	});
+
 	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key === 'ArrowLeft') {
 			scroll('left');
@@ -208,9 +237,6 @@
 				bind:this={scrollContainer}
 				onscroll={updateScrollState}
 				onmousedown={handleMouseDown}
-				onmouseleave={handleMouseLeave}
-				onmouseup={handleMouseUp}
-				onmousemove={handleMouseMove}
 				onkeydown={handleKeyDown}
 				tabindex="0"
 				role="list"
