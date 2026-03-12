@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { getFitMetrics } from '../src/lib/fit-section.js';
+import { getFitBleed, getFitInsets, getFitMetrics } from '../src/lib/fit-section.js';
 
 test('keeps scale at 1 when content already fits', () => {
 	assert.deepEqual(
@@ -53,16 +53,48 @@ test('uses the more restrictive axis when both dimensions overflow', () => {
 	);
 });
 
-test('includes bleed padding when computing the fit scale', () => {
+test('supports per-side bleed when computing fit scale', () => {
 	assert.deepEqual(
 		getFitMetrics({
 			contentWidth: 1000,
 			contentHeight: 1000,
 			availableWidth: 900,
 			availableHeight: 900,
-			bleedX: 40,
-			bleedY: 20
+			bleedLeft: 40,
+			bleedRight: 40,
+			bleedTop: 20,
+			bleedBottom: 20
 		}),
-		{ scale: 0.8653, fittedWidth: 899.912, fittedHeight: 882.606 }
+		{ scale: 0.8333, fittedWidth: 899.964, fittedHeight: 866.632 }
+	);
+});
+
+test('prioritizes directional bleed values without stacking default axis bleed', () => {
+	assert.deepEqual(
+		getFitBleed({
+			fitBleedTop: '40',
+			fitBleedBottom: '40'
+		}),
+		{
+			bleedX: 24,
+			bleedY: 0,
+			bleedLeft: 0,
+			bleedRight: 0,
+			bleedTop: 40,
+			bleedBottom: 40
+		}
+	);
+});
+
+test('supports explicit fit insets for fixed overlays like the desktop navbar', () => {
+	assert.deepEqual(
+		getFitInsets({
+			fitInsetTop: '40',
+			fitInsetBottom: '16'
+		}),
+		{
+			insetTop: 40,
+			insetBottom: 16
+		}
 	);
 });

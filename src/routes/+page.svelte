@@ -48,11 +48,7 @@
 
 		event.preventDefault();
 
-		if (action.sectionDelta === 0) {
-			if (isScrolling) {
-				scheduleScrollUnlock();
-			}
-
+		if (!action.shouldResetLock || action.sectionDelta === 0) {
 			return;
 		}
 

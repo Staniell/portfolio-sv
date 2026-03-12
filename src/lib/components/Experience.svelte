@@ -33,7 +33,13 @@
 </script>
 
 <section {id} class="section experience">
-	<div class="section-fit-shell" use:fitSection data-fit-bleed-y="40">
+	<div
+		class="section-fit-shell"
+		use:fitSection
+		data-fit-inset-top="40"
+		data-fit-bleed-top="40"
+		data-fit-bleed-bottom="40"
+	>
 		<div class="section-fit-viewport">
 			<div class="experience-container section-fit-content" data-fit-content>
 				<div class="section-header">

@@ -120,6 +120,9 @@ body {
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
+	padding-top: var(--fit-inset-top, 0px);
+	padding-bottom: var(--fit-inset-bottom, 0px);
+	box-sizing: border-box;
 }
 
 .section-fit-viewport {
