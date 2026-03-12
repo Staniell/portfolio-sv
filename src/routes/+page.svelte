@@ -1,68 +1,102 @@
 <script lang="ts">
 	import { Hero, About, Experience, Projects, Skills, Contact, Navigation } from '$lib';
+	import { getDesktopWheelAction } from '$lib/desktop-scroll.js';
+	import { getClosestSectionIndex } from '$lib/section-navigation.js';
 	import { onMount } from 'svelte';
 
 	let currentSection = $state('hero');
 	let sections: string[] = ['hero', 'about', 'experience', 'projects', 'skills', 'contact'];
 	let isScrolling = $state(false);
+	let scrollUnlockTimeout: number | undefined;
+
+	function getSectionElement(id: string) {
+		const element = document.getElementById(id);
+		return element instanceof HTMLElement ? element : null;
+	}
 
 	function scrollToSection(index: number) {
 		if (index < 0 || index >= sections.length || isScrolling) return;
 
-		isScrolling = true;
-		const element = document.getElementById(sections[index]);
-		element?.scrollIntoView({ behavior: 'smooth' });
+		const element = getSectionElement(sections[index]);
+		if (!element) return;
 
-		// Debounce to prevent rapid scrolling
-		setTimeout(() => {
+		isScrolling = true;
+		currentSection = sections[index];
+		element.scrollIntoView({ behavior: 'smooth' });
+		scheduleScrollUnlock();
+	}
+
+	function scheduleScrollUnlock() {
+		if (scrollUnlockTimeout !== undefined) {
+			window.clearTimeout(scrollUnlockTimeout);
+		}
+
+		scrollUnlockTimeout = window.setTimeout(() => {
 			isScrolling = false;
+			scrollUnlockTimeout = undefined;
 		}, 800);
 	}
 
 	function handleWheel(event: WheelEvent) {
-		// Only use custom scroll on desktop
-		if (window.innerWidth <= 768) return;
+		const action = getDesktopWheelAction({
+			innerWidth: window.innerWidth,
+			isScrolling,
+			deltaY: event.deltaY
+		});
+
+		if (!action.shouldPreventDefault) return;
 
 		event.preventDefault();
 
-		const currentIndex = sections.indexOf(currentSection);
-		if (event.deltaY > 0) {
-			// Scroll down - go to next section
-			scrollToSection(currentIndex + 1);
-		} else {
-			// Scroll up - go to previous section
-			scrollToSection(currentIndex - 1);
+		if (!action.shouldResetLock || action.sectionDelta === 0) {
+			return;
 		}
+
+		const currentIndex = getClosestSectionIndex({
+			scrollY: window.scrollY,
+			viewportHeight: window.innerHeight,
+			sections: sections.flatMap((sectionId) => {
+				const element = getSectionElement(sectionId);
+				if (!element) return [];
+
+				return [{ top: element.offsetTop, height: element.offsetHeight }];
+			})
+		});
+
+		scrollToSection(currentIndex + action.sectionDelta);
+	}
+
+	function updateCurrentSectionFromScroll() {
+		const currentIndex = getClosestSectionIndex({
+			scrollY: window.scrollY,
+			viewportHeight: window.innerHeight,
+			sections: sections.flatMap((sectionId) => {
+				const element = getSectionElement(sectionId);
+				if (!element) return [];
+
+				return [{ top: element.offsetTop, height: element.offsetHeight }];
+			})
+		});
+
+		currentSection = sections[currentIndex] ?? sections[0];
 	}
 
 	onMount(() => {
-		const observerOptions = {
-			root: null,
-			rootMargin: '-50% 0px -50% 0px',
-			threshold: 0
-		};
-
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					currentSection = entry.target.id;
-				}
-			});
-		}, observerOptions);
-
-		sections.forEach((section) => {
-			const element = document.getElementById(section);
-			if (element) {
-				observer.observe(element);
-			}
-		});
+		updateCurrentSectionFromScroll();
 
 		// Add wheel event listener with passive: false to allow preventDefault
 		window.addEventListener('wheel', handleWheel, { passive: false });
+		window.addEventListener('scroll', updateCurrentSectionFromScroll, { passive: true });
+		window.addEventListener('resize', updateCurrentSectionFromScroll);
 
 		return () => {
-			observer.disconnect();
+			if (scrollUnlockTimeout !== undefined) {
+				window.clearTimeout(scrollUnlockTimeout);
+			}
+
 			window.removeEventListener('wheel', handleWheel);
+			window.removeEventListener('scroll', updateCurrentSectionFromScroll);
+			window.removeEventListener('resize', updateCurrentSectionFromScroll);
 		};
 	});
 </script>
@@ -76,7 +110,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
-		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+		href="https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@100..900&family=Public+Sans:wght@100..900&display=swap"
 		rel="stylesheet"
 	/>
 </svelte:head>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { fitSection } from '$lib/fit-section.js';
+
 	interface Props {
 		id: string;
 	}
@@ -31,145 +33,146 @@
 </script>
 
 <section {id} class="section experience">
-	<div class="experience-container">
-		<div class="section-header">
-			<span class="section-label">Career</span>
-			<h2 class="heading-lg">Work <span class="gradient-text">Experience</span></h2>
-		</div>
-
-		<div class="timeline">
-			{#each experiences as exp, index}
-				<div class="timeline-item" style="--delay: {index * 0.1}s">
-					<div class="timeline-marker">
-						<div class="marker-dot"></div>
-						{#if index < experiences.length - 1}
-							<div class="marker-line"></div>
-						{/if}
-					</div>
-
-					<div class="timeline-content glass">
-						<span class="timeline-period">{exp.period}</span>
-						<h3 class="heading-md">{exp.title}</h3>
-						<span class="timeline-company">{exp.company}</span>
-						<p class="text-body">{exp.description}</p>
-					</div>
+	<div
+		class="section-fit-shell"
+		use:fitSection
+		data-fit-inset-top="40"
+		data-fit-bleed-top="40"
+		data-fit-bleed-bottom="40"
+	>
+		<div class="section-fit-viewport">
+			<div class="experience-container section-fit-content" data-fit-content>
+				<div class="section-header">
+					<span class="section-label">Career</span>
+					<h2 class="heading-lg">Work <span class="gradient-text">Experience</span></h2>
 				</div>
-			{/each}
+
+				<div class="timeline">
+					{#each experiences as exp, index}
+						<div class="timeline-item" style="--delay: {index * 0.1}s">
+							<div class="timeline-marker">
+								<div class="marker-dot"></div>
+								{#if index < experiences.length - 1}
+									<div class="marker-line"></div>
+								{/if}
+							</div>
+
+							<div class="timeline-content glass">
+								<span class="timeline-period">{exp.period}</span>
+								<h3 class="heading-md">{exp.title}</h3>
+								<span class="timeline-company">{exp.company}</span>
+								<p class="text-body">{exp.description}</p>
+							</div>
+						</div>
+					{/each}
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
 
 <style>
 	.experience {
-		background: var(--color-bg-secondary);
+		background: transparent;
 	}
 
 	.experience-container {
-		max-width: 800px;
+		max-width: 920px;
 		width: 100%;
-		max-height: 90vh;
-		overflow: hidden;
-	}
-
-	@media (max-width: 768px) {
-		.experience-container {
-			max-height: none;
-			overflow: visible;
-		}
 	}
 
 	.timeline {
 		display: flex;
 		flex-direction: column;
-		gap: 0;
+		gap: 0.75rem;
 	}
 
 	.timeline-item {
 		display: grid;
-		grid-template-columns: 40px 1fr;
-		gap: 0.75rem;
+		grid-template-columns: 56px 1fr;
+		gap: 1rem;
 	}
 
 	.timeline-marker {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		padding-top: 0.2rem;
 	}
 
 	.marker-dot {
-		width: 12px;
-		height: 12px;
-		border-radius: 50%;
-		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-		box-shadow: 0 0 15px var(--color-accent-glow);
+		width: 22px;
+		height: 22px;
+		background: var(--color-accent);
+		border: 3px solid var(--color-border);
+		box-shadow: 4px 4px 0 var(--color-shadow);
 		flex-shrink: 0;
 	}
 
 	.marker-line {
-		width: 2px;
+		width: 4px;
 		flex: 1;
-		background: linear-gradient(
-			180deg,
-			var(--color-accent) 0%,
-			rgba(var(--color-accent-base), 0.2) 100%
-		);
-		margin-top: 0.25rem;
+		background: var(--color-border);
+		margin-top: 0.65rem;
 	}
 
 	.timeline-content {
-		padding: clamp(0.75rem, 2vh, 1.25rem);
-		margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+		padding: clamp(1rem, 2vh, 1.35rem);
+		margin-bottom: 0;
+		background: var(--color-panel);
 	}
 
 	.timeline-period {
 		display: inline-block;
-		padding: 0.2rem 0.5rem;
-		background: rgba(var(--color-accent-base), 0.15);
-		border-radius: 1rem;
-		font-size: 0.7rem;
-		font-weight: 600;
-		color: var(--color-accent-light);
-		margin-bottom: 0.5rem;
+		padding: 0.45rem 0.65rem;
+		background: var(--color-sticker);
+		border: 3px solid var(--color-border);
+		font-size: 0.74rem;
+		font-weight: 800;
+		color: var(--color-text-primary);
+		margin-bottom: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 
 	.timeline-content .heading-md {
-		margin-bottom: 0.125rem;
+		margin-bottom: 0.35rem;
 		font-size: clamp(1rem, 2.5vw, 1.5rem);
 	}
 
 	.timeline-company {
 		display: block;
-		color: var(--color-accent-light);
-		font-weight: 500;
+		color: var(--color-accent);
+		font-weight: 800;
 		font-size: 0.875rem;
-		margin-bottom: 0.5rem;
+		margin-bottom: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 
 	.timeline-content .text-body {
 		margin: 0;
-		font-size: clamp(0.75rem, 1.5vw, 0.875rem);
-		line-height: 1.5;
+		font-size: clamp(0.9rem, 1.4vw, 1rem);
+		line-height: 1.6;
 	}
 
 	@media (max-width: 640px) {
 		.timeline-item {
-			grid-template-columns: 30px 1fr;
+			grid-template-columns: 36px 1fr;
 		}
 	}
 
-	/* For short screens */
 	@media (max-height: 700px) {
 		.section-header {
 			margin-bottom: 0.75rem;
 		}
 
 		.timeline-content {
-			padding: 0.625rem;
-			margin-bottom: 0.375rem;
+			padding: 0.8rem;
 		}
 
 		.timeline-content .text-body {
-			font-size: 0.75rem;
+			font-size: 0.86rem;
 			line-height: 1.4;
 		}
 	}

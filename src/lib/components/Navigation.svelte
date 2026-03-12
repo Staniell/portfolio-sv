@@ -25,7 +25,7 @@
 	}
 </script>
 
-<nav class="navigation glass">
+<nav class="navigation glass" aria-label="Section navigation">
 	<a href="#hero" class="nav-logo" onclick={() => handleNavClick('hero')}>
 		<span class="logo-text">GB</span>
 	</a>
@@ -73,31 +73,39 @@
 		transform: translateX(-50%);
 		display: flex;
 		align-items: center;
-		gap: 2rem;
-		padding: 0.75rem 1.5rem;
+		justify-content: space-between;
+		gap: 1.25rem;
+		width: min(960px, calc(100% - 2rem));
+		padding: 0.85rem 1rem;
 		z-index: 100;
-		border-radius: 2rem;
+		background: var(--color-panel);
 	}
 
 	.nav-logo {
 		display: flex;
 		align-items: center;
+		justify-content: center;
+		min-width: 64px;
+		padding: 0.65rem 0.95rem;
+		background: var(--color-sticker);
+		border: 3px solid var(--color-border);
+		box-shadow: 4px 4px 0 var(--color-shadow);
 		text-decoration: none;
 	}
 
 	.logo-text {
-		font-size: 1.25rem;
+		font-size: 1rem;
 		font-weight: 800;
-		background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
+		font-family: var(--font-display);
+		letter-spacing: -0.12em;
+		text-transform: uppercase;
 	}
 
 	.nav-toggle {
 		display: none;
-		background: none;
-		border: none;
+		background: var(--color-sticker);
+		border: 3px solid var(--color-border);
+		box-shadow: 4px 4px 0 var(--color-shadow);
 		cursor: pointer;
 		padding: 0.5rem;
 	}
@@ -105,10 +113,10 @@
 	.hamburger {
 		display: block;
 		width: 24px;
-		height: 2px;
+		height: 3px;
 		background: var(--color-text-primary);
 		position: relative;
-		transition: all 0.3s ease;
+		transition: all var(--transition-smooth);
 	}
 
 	.hamburger::before,
@@ -117,9 +125,9 @@
 		position: absolute;
 		left: 0;
 		width: 24px;
-		height: 2px;
+		height: 3px;
 		background: var(--color-text-primary);
-		transition: all 0.3s ease;
+		transition: all var(--transition-smooth);
 	}
 
 	.hamburger::before {
@@ -151,110 +159,129 @@
 		list-style: none;
 		margin: 0;
 		padding: 0;
+		flex-wrap: wrap;
+		justify-content: flex-end;
 	}
 
 	.nav-link {
-		padding: 0.5rem 1rem;
-		background: none;
-		border: none;
+		padding: 0.8rem 1rem;
+		background: var(--color-panel-strong);
+		border: 3px solid transparent;
 		color: var(--color-text-secondary);
 		font-size: 0.875rem;
-		font-weight: 500;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
 		cursor: pointer;
-		border-radius: 1rem;
-		transition: all var(--transition-smooth);
+		transition:
+			transform var(--transition-smooth),
+			background-color var(--transition-smooth),
+			border-color var(--transition-smooth),
+			box-shadow var(--transition-smooth),
+			color var(--transition-smooth);
+		min-height: 48px;
 	}
 
 	.nav-link:hover {
 		color: var(--color-text-primary);
-		background: rgba(255, 255, 255, 0.05);
+		background: var(--color-sticker);
+		border-color: var(--color-border);
+		box-shadow: 4px 4px 0 var(--color-shadow);
+		transform: translate(-2px, -2px);
 	}
 
 	.nav-link.active {
-		color: var(--color-accent-light);
-		background: rgba(var(--color-accent-base), 0.15);
+		color: var(--color-text-primary);
+		background: var(--color-accent);
+		border-color: var(--color-border);
+		box-shadow: 4px 4px 0 var(--color-shadow);
 	}
 
 	.nav-indicator {
 		display: none;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: 0.6rem;
 	}
 
 	.indicator-dot {
-		width: 12px;
-		height: 12px;
-		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.2);
+		width: 18px;
+		height: 18px;
+		background: var(--color-panel);
 		cursor: pointer;
-		transition: all var(--transition-smooth);
-		border: none;
+		transition:
+			transform var(--transition-smooth),
+			background-color var(--transition-smooth),
+			box-shadow var(--transition-smooth);
+		border: 3px solid var(--color-border);
 		padding: 0;
+		box-shadow: 4px 4px 0 var(--color-shadow);
 	}
 
 	.indicator-dot:hover {
-		background: rgba(255, 255, 255, 0.4);
+		background: var(--color-sticker);
+		transform: translate(-2px, -2px);
+		box-shadow: 6px 6px 0 var(--color-shadow);
 	}
 
 	.indicator-dot.active {
 		background: var(--color-accent);
-		box-shadow: 0 0 10px var(--color-accent-glow);
+		transform: translate(-2px, -2px);
+		box-shadow: 6px 6px 0 var(--color-shadow);
 	}
 
-	/* Right side dot indicator for desktop */
 	@media (min-width: 769px) {
 		.nav-indicator {
 			display: flex;
 			position: fixed;
-			right: 1.5rem;
+			right: 1rem;
 			top: 50%;
 			transform: translateY(-50%);
-			background: rgba(0, 0, 0, 0.3);
-			backdrop-filter: blur(10px);
-			padding: 0.75rem 0.5rem;
-			border-radius: 1rem;
-			border: 1px solid rgba(255, 255, 255, 0.08);
+			background: var(--color-panel);
+			padding: 0.85rem 0.55rem;
+			border: 3px solid var(--color-border);
+			box-shadow: var(--shadow-brutal);
 			z-index: 100;
 		}
 	}
 
 	@media (max-width: 768px) {
 		.navigation {
-			width: calc(100% - 2rem);
-			justify-content: space-between;
-			padding: 0.5rem 1.25rem;
+			width: calc(100% - 1rem);
+			padding: 0.85rem;
 		}
 
 		.nav-toggle {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 40px;
-			height: 40px;
+			width: 48px;
+			height: 48px;
 			padding: 0;
-			border-radius: 50%;
-			background: rgba(255, 255, 255, 0.05);
-			transition: all 0.3s ease;
+			transition:
+				transform var(--transition-smooth),
+				box-shadow var(--transition-smooth),
+				background-color var(--transition-smooth);
 		}
 
 		.nav-toggle:hover,
 		.nav-toggle[aria-expanded='true'] {
-			background: rgba(var(--color-accent-base), 0.2);
-			box-shadow: 0 0 15px var(--color-accent-glow);
+			background: var(--color-accent);
+			transform: translate(-2px, -2px);
+			box-shadow: 6px 6px 0 var(--color-shadow);
 		}
 
 		.hamburger {
 			width: 20px;
-			height: 2px;
-			background: var(--color-accent-light);
+			height: 3px;
+			background: var(--color-text-primary);
 		}
 
 		.hamburger::before,
 		.hamburger::after {
 			left: 0;
 			width: 20px;
-			height: 2px;
-			background: var(--color-accent-light);
+			height: 3px;
+			background: var(--color-text-primary);
 		}
 
 		.hamburger::before {
@@ -267,70 +294,42 @@
 
 		.nav-links {
 			position: fixed;
-			top: 5rem;
-			left: 1rem;
-			right: 1rem;
+			top: 5.6rem;
+			left: 0.75rem;
+			right: 0.75rem;
 			flex-direction: column;
-			background: rgba(18, 18, 26, 0.9);
-			backdrop-filter: blur(25px);
-			-webkit-backdrop-filter: blur(25px);
-			border: 1px solid rgba(255, 255, 255, 0.1);
-			border-radius: 1.5rem;
-			padding: 1.5rem 1rem;
+			align-items: stretch;
+			background: var(--color-panel);
+			border: 3px solid var(--color-border);
+			padding: 1rem;
 			opacity: 0;
 			visibility: hidden;
-			transform: scale(0.95) translateY(-20px);
-			transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-			box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+			transform: translateY(-12px);
+			transition:
+				opacity var(--transition-smooth),
+				visibility var(--transition-smooth),
+				transform var(--transition-smooth);
+			box-shadow: var(--shadow-brutal-lg);
 		}
 
 		.nav-links.open {
 			opacity: 1;
 			visibility: visible;
-			transform: scale(1) translateY(0);
-		}
-
-		.nav-links::before {
-			content: '';
-			position: absolute;
-			inset: 0;
-			border-radius: 1.5rem;
-			padding: 1px;
-			background: linear-gradient(
-				135deg,
-				rgba(255, 255, 255, 0.1),
-				transparent,
-				rgba(var(--color-accent-base), 0.2)
-			);
-			-webkit-mask:
-				linear-gradient(#fff 0 0) content-box,
-				linear-gradient(#fff 0 0);
-			mask:
-				linear-gradient(#fff 0 0) content-box,
-				linear-gradient(#fff 0 0);
-			-webkit-mask-composite: xor;
-			mask-composite: exclude;
-			pointer-events: none;
+			transform: translateY(0);
 		}
 
 		.nav-link {
 			width: 100%;
 			text-align: center;
 			padding: 1rem;
-			font-size: 1rem;
-			letter-spacing: 0.05em;
-			border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-			border-radius: 0;
-		}
-
-		.nav-link:last-child {
-			border-bottom: none;
+			font-size: 0.95rem;
+			border-color: var(--color-border);
+			box-shadow: 4px 4px 0 var(--color-shadow);
 		}
 
 		.nav-link.active {
-			background: transparent;
-			color: var(--color-accent);
-			font-weight: 700;
+			background: var(--color-accent);
+			color: var(--color-text-primary);
 		}
 	}
 </style>

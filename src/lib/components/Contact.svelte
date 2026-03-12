@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { fitSection } from '$lib/fit-section.js';
+
 	interface Props {
 		id: string;
 	}
@@ -25,81 +27,92 @@
 </script>
 
 <section {id} class="section contact">
-	<div class="contact-container">
-		<div class="section-header">
-			<span class="section-label">Get in Touch</span>
-			<h2 class="heading-lg">Let's <span class="gradient-text">Connect</span></h2>
-			<p class="text-body contact-description">
-				I'm always open to discussing new projects, creative ideas, or opportunities to be part of
-				your vision.
-			</p>
-		</div>
+	<div class="section-fit-shell" use:fitSection>
+		<div class="section-fit-viewport">
+			<div class="contact-shell section-fit-content" data-fit-content>
+				<div class="contact-container glass">
+					<div class="section-header">
+						<span class="section-label">Get in Touch</span>
+						<h2 class="heading-lg">Let's <span class="gradient-text">Connect</span></h2>
+						<p class="text-body contact-description">
+							I'm always open to discussing new projects, creative ideas, or opportunities to be
+							part of your vision.
+						</p>
+					</div>
 
-		<div class="contact-cta">
-			<a href="mailto:giostaniell14@gmail.com" class="btn-primary" data-sveltekit-reload>
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-					<path
-						d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"
-					/>
-				</svg>
-				<span>Send me an Email</span>
-			</a>
-		</div>
+					<div class="contact-cta">
+						<a href="mailto:giostaniell14@gmail.com" class="btn-primary" data-sveltekit-reload>
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+								<path
+									d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"
+								/>
+							</svg>
+							<span>Send me an Email</span>
+						</a>
+					</div>
 
-		<div class="socials">
-			{#each socials as social}
-				<a
-					href={social.url}
-					class="social-link glass"
-					target={social.url.startsWith('mailto:') ? undefined : '_blank'}
-					rel={social.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-					data-sveltekit-reload={social.url.startsWith('mailto:') ? '' : undefined}
-					aria-label={social.name}
-				>
-					<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-						<path d={social.icon} />
-					</svg>
-					<span class="social-name">{social.name}</span>
-				</a>
-			{/each}
+					<div class="socials">
+						{#each socials as social}
+							<a
+								href={social.url}
+								class="social-link glass"
+								target={social.url.startsWith('mailto:') ? undefined : '_blank'}
+								rel={social.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+								data-sveltekit-reload={social.url.startsWith('mailto:') ? '' : undefined}
+								aria-label={social.name}
+							>
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+									<path d={social.icon} />
+								</svg>
+								<span class="social-name">{social.name}</span>
+							</a>
+						{/each}
+					</div>
+				</div>
+
+				<footer class="footer">
+					<p class="text-small">© 2025 Gio Staniell Belolo. All rights reserved.</p>
+				</footer>
+			</div>
 		</div>
 	</div>
-
-	<footer class="footer">
-		<p class="text-small">© 2025 Gio Staniell Belolo. All rights reserved.</p>
-	</footer>
 </section>
 
 <style>
 	.contact {
-		background:
-			radial-gradient(
-				ellipse at center bottom,
-				rgba(var(--color-accent-base), 0.1) 0%,
-				transparent 60%
-			),
-			var(--color-bg-primary);
+		background: transparent;
+	}
+
+	.contact-shell {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5rem;
 	}
 
 	.contact-container {
-		max-width: 600px;
+		max-width: 760px;
 		width: 100%;
 		text-align: center;
+		padding: clamp(1.4rem, 4vw, 2.3rem);
+		background: var(--color-panel);
 	}
 
 	.contact-description {
-		max-width: 450px;
+		max-width: 540px;
 		margin: 1rem auto 0;
 	}
 
 	.contact-cta {
-		margin-bottom: 2.5rem;
+		margin: 2rem 0;
 	}
 
 	.socials {
 		display: flex;
 		gap: 1rem;
 		justify-content: center;
+		flex-wrap: wrap;
 	}
 
 	.social-link {
@@ -107,41 +120,59 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 0.5rem;
-		padding: 1.25rem 1.5rem;
+		padding: 1rem 1.2rem;
+		min-width: 132px;
+		background: var(--color-panel-strong);
 		color: var(--color-text-secondary);
-		transition: all var(--transition-smooth);
+		transition:
+			transform var(--transition-smooth),
+			box-shadow var(--transition-smooth),
+			background-color var(--transition-smooth),
+			color var(--transition-smooth);
 	}
 
 	.social-link:hover {
-		color: var(--color-accent-light);
-		transform: translateY(-4px);
-		box-shadow: 0 8px 24px var(--color-accent-glow);
+		color: var(--color-text-primary);
+		background: var(--color-accent-soft);
+		transform: translate(-2px, -2px);
+		box-shadow: 8px 8px 0 var(--color-shadow);
 	}
 
 	.social-name {
-		font-size: 0.75rem;
-		font-weight: 500;
+		font-size: 0.76rem;
+		font-weight: 800;
 		text-transform: uppercase;
-		letter-spacing: 0.05em;
+		letter-spacing: 0.08em;
 	}
 
 	.footer {
-		position: absolute;
-		bottom: 1.5rem;
-		left: 0;
-		right: 0;
 		text-align: center;
+	}
+
+	.footer :global(.text-small) {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem 0.8rem;
+		background: var(--color-panel);
+		border: 3px solid var(--color-border);
+		box-shadow: 4px 4px 0 var(--color-shadow);
+		color: var(--color-text-secondary);
 	}
 
 	@media (max-width: 640px) {
 		.socials {
 			flex-direction: column;
-			align-items: center;
+			align-items: stretch;
+		}
+
+		.footer {
+			margin-top: 1.5rem;
 		}
 
 		.social-link {
 			width: 100%;
-			max-width: 200px;
+			max-width: none;
 			flex-direction: row;
 			justify-content: center;
 		}
