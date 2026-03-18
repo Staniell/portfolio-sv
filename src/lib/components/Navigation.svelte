@@ -3,9 +3,10 @@
 
 	interface Props {
 		currentSection?: string;
+		onNavigate?: (id: string) => void;
 	}
 
-	let { currentSection = 'hero' }: Props = $props();
+	let { currentSection = 'hero', onNavigate }: Props = $props();
 	let isMenuOpen = $state(false);
 	let isNavHidden = $state(false);
 
@@ -94,8 +95,12 @@
 			resetNavTracking(Math.max(window.scrollY, 0));
 		}
 
-		const element = document.getElementById(id);
-		element?.scrollIntoView({ behavior: 'smooth' });
+		if (onNavigate) {
+			onNavigate(id);
+		} else {
+			const element = document.getElementById(id);
+			element?.scrollIntoView({ behavior: 'smooth' });
+		}
 	}
 
 	onMount(() => {

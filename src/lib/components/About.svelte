@@ -10,7 +10,13 @@
 </script>
 
 <section {id} class="section section--dark about">
-	<div class="section-fit-shell" use:fitSection>
+	<div
+		class="section-fit-shell"
+		use:fitSection
+		data-fit-inset-top="var(--nav-fit-inset-top)"
+		data-fit-bleed-top="var(--section-fit-bleed-y)"
+		data-fit-bleed-bottom="var(--section-fit-bleed-y)"
+	>
 		<div class="section-fit-viewport">
 			<div class="about-container section-fit-content" data-fit-content>
 				<div class="section-header">

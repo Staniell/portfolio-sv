@@ -15,7 +15,7 @@
 	}
 
 	function scrollToSection(index: number) {
-		if (index < 0 || index >= sections.length || isScrolling) return;
+		if (index < 0 || index >= sections.length) return;
 
 		const element = getSectionElement(sections[index]);
 		if (!element) return;
@@ -24,6 +24,13 @@
 		currentSection = sections[index];
 		element.scrollIntoView({ behavior: 'smooth' });
 		scheduleScrollUnlock();
+	}
+
+	function navigateToSection(id: string) {
+		const index = sections.indexOf(id);
+		if (index !== -1) {
+			scrollToSection(index);
+		}
 	}
 
 	function scheduleScrollUnlock() {
@@ -67,6 +74,8 @@
 	}
 
 	function updateCurrentSectionFromScroll() {
+		if (isScrolling) return;
+
 		const currentIndex = getClosestSectionIndex({
 			scrollY: window.scrollY,
 			viewportHeight: window.innerHeight,
@@ -115,7 +124,7 @@
 	/>
 </svelte:head>
 
-<Navigation {currentSection} />
+<Navigation {currentSection} onNavigate={navigateToSection} />
 
 <main class="portfolio-container">
 	<Hero id="hero" />
