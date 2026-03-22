@@ -31,7 +31,7 @@
 			title: 'MIDI Piano',
 			description:
 				'A browser-based interactive piano and MIDI player with a falling-notes visualizer. Features an 88-key playable piano, MIDI file import/export, and an AI composition sidebar powered by Gemini that generates and transforms pieces on demand.',
-			tech: ['Next.js', 'React', 'Tone.js', 'Zustand', 'Gemini'],
+			tech: ['Next.js', 'React', 'Tone.js', 'Zustand', 'FastAPI', 'Gemini'],
 			url: 'https://midi-piano-player.vercel.app/',
 			image: 'https://b.catgirlsare.sexy/WrxX3bDhVuco.png'
 		},
