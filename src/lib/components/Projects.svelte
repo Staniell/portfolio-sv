@@ -44,28 +44,12 @@
 			image: 'https://b.catgirlsare.sexy/9v9yQFoCt1KK.png'
 		},
 		{
-			title: 'Listify',
-			description:
-				'A multi-vendor e-commerce ecosystem with real-time messaging and integrated Stripe Connect, empowering sellers to manage transactions and earn effortlessly.',
-			tech: ['Next.js', 'Supabase', 'Prisma', 'Stripe', 'Real-time'],
-			url: 'https://listify-store.vercel.app/?utm_source=portfolio',
-			image: 'https://b.catgirlsare.sexy/5UaWmVIutkT0.png'
-		},
-		{
 			title: 'OnlyHate',
 			description:
 				'A Chrome extension that leverages sentiment analysis to filter YouTube comments, surfacing critical feedback and dissenting opinions by hiding positive/neutral content.',
 			tech: ['TypeScript', 'Chrome MV3', 'Sentiment', 'esbuild'],
 			url: 'https://only-hate.vercel.app/?utm_source=portfolio',
 			image: 'https://b.catgirlsare.sexy/jrxDBAWSBCRt.png'
-		},
-		{
-			title: 'ISR Blog',
-			description:
-				'A production-grade web application built with Next.js 16 and Prisma, featuring Incremental Static Regeneration (ISR) for high-performance content delivery. Showcases a modern glassmorphism UI with Tailwind CSS v4 and a dynamic multi-theme system.',
-			tech: ['Next.js 16', 'Prisma', 'Tailwind CSS v4', 'Auth.js', 'ISR'],
-			url: 'https://isr-blogs.vercel.app/?utm_source=portfolio',
-			image: 'https://b.catgirlsare.sexy/7IHqNcj6K0KX.png'
 		},
 		{
 			title: 'Solar 3D',
@@ -83,15 +67,7 @@
 			url: 'https://doom-scroll-infinity.vercel.app/',
 			image: 'https://b.catgirlsare.sexy/Qg5SjH5y_-B6.png'
 		},
-		{
-			title: 'QuizCraft',
-			description:
-				'An AI-powered quiz platform where users can create, share, and take interactive quizzes on any subject. Features AI-generated questions, multiple question types, real-time grading, and a public explore feed.',
-			tech: ['React', 'Django', 'TypeScript', 'Tailwind CSS', 'DRF'],
-			url: 'https://quiz-forge-beta.vercel.app/?utm_source=portfolio',
-			image: 'https://b.catgirlsare.sexy/e6-MSCOmItLv.png'
-		}
-	];
+		];
 
 	const projects = baseProjects;
 
