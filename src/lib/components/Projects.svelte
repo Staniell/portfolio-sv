@@ -12,6 +12,14 @@
 
 	const baseProjects = [
 		{
+			title: 'Quizzly',
+			description:
+				'A full-stack AI quiz platform with BYOK Gemini integration and RAG-powered semantic search. Features multiple question types, real-time grading, leaderboards, and a neobrutalism design system.',
+			tech: ['Rails 8', 'React 19', 'TypeScript', 'Tailwind CSS', 'PostgreSQL', 'Gemini'],
+			url: 'https://quizzly-scores.vercel.app/?utm_source=portfolio',
+			image: 'https://b.catgirlsare.sexy/gRgrf5DlHgD_.png'
+		},
+		{
 			title: 'Musebound',
 			description:
 				'A human-centric AI art platform designed for community collaboration, featuring seamless PayPal subscription integration and advanced generative capabilities.',
